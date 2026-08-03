@@ -64,7 +64,7 @@ Clone repository dan masuk ke direktori proyek:
 
 ```bash
 git clone https://github.com/Whyjuhari/task-management.git
-cd taskflow-bpvp-laravel
+cd task-management
 ```
 
 Instal dependency PHP dan frontend:
