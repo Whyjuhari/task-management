@@ -160,6 +160,7 @@ npm run build
 
 ## Akun Demo
 
+<<<<<<< HEAD
 | Role               | Email                   | Password   |
 | ------------------ | ----------------------- | ---------- |
 | Admin / Instruktur | `admin@taskflow.test`   | `password` |
@@ -167,6 +168,15 @@ npm run build
 
 Akun demo dibuat melalui seeder dan hanya digunakan untuk pengembangan serta pengujian.
 
+=======
+| Role | Email | Password |
+|---|---|---|
+| Admin / Instruktur | `admin@taskflow.test` | `password` |
+| Peserta | `peserta@taskflow.test` | `password` |
+
+Akun demo dibuat melalui seeder dan hanya digunakan untuk pengembangan serta pengujian.
+
+>>>>>>> db0f05e8abb48ee17082a3e6099989a28bbd9005
 ## Menjalankan Test
 
 Jalankan pengujian aplikasi dengan:
