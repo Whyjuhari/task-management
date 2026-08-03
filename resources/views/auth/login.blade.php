@@ -15,7 +15,7 @@
     <main class="flex min-h-screen items-center justify-center px-6 py-12">
         <section class="w-full max-w-md rounded-2xl border border-border bg-card p-8 shadow-sm sm:p-10">
             <div class="mb-8">
-                <div class="mb-5 flex size-12 items-center justify-center rounded-xl bg-primary text-white">
+                <div class="mb-5 flex size-12 items-center justify-center rounded bg-primary text-white">
                     <svg class="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                         aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4" />
@@ -60,7 +60,7 @@
                 </label>
 
                 <button type="submit"
-                    class="w-full rounded-xl bg-primary px-4 py-3 text-sm font-semibold text-white transition hover:bg-blue-700 focus:outline-none focus:ring-3 focus:ring-primary/30">
+                    class="w-full rounded-sm bg-primary px-4 py-3 text-sm font-semibold text-white transition hover:bg-blue-700 focus:outline-none focus:ring-3 focus:ring-primary/30">
                     Masuk
                 </button>
             </form>

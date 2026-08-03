@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthenticatedSessionController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PlaceholderController;
+use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -19,7 +20,8 @@ Route::middleware('auth')->group(function () {
 
     Route::middleware('role:admin')->prefix('admin')->name('admin.')->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'admin'])->name('dashboard');
-        Route::get('/tasks', [PlaceholderController::class, 'adminTasks'])->name('tasks.index');
+        Route::patch('/tasks/{task}/status', [TaskController::class, 'updateStatus'])->name('tasks.status');
+        Route::resource('tasks', TaskController::class);
         Route::get('/submissions', [PlaceholderController::class, 'adminSubmissions'])->name('submissions.index');
         Route::get('/participants', [PlaceholderController::class, 'adminParticipants'])->name('participants.index');
     });

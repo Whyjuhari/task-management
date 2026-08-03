@@ -4,6 +4,7 @@ const initializeDashboardInteractions = () => {
     const drawerOpenButton = document.querySelector('[data-drawer-open]');
     const drawerCloseButtons = document.querySelectorAll('[data-drawer-close], [data-drawer-link]');
     const flashDismissButtons = document.querySelectorAll('[data-flash-dismiss]');
+    const deleteForms = document.querySelectorAll('[data-confirm-delete]');
 
     if (drawer && drawerOverlay && drawerOpenButton) {
         const openDrawer = () => {
@@ -43,6 +44,19 @@ const initializeDashboardInteractions = () => {
     flashDismissButtons.forEach((button) => {
         button.addEventListener('click', () => {
             button.closest('[data-flash-message]')?.remove();
+        });
+    });
+
+    deleteForms.forEach((form) => {
+        form.addEventListener('submit', (event) => {
+            const taskTitle = form.dataset.taskTitle ?? 'ini';
+            const confirmed = window.confirm(
+                `Hapus tugas "${taskTitle}"? Tugas dan pengumpulan terkait akan dihapus permanen.`,
+            );
+
+            if (!confirmed) {
+                event.preventDefault();
+            }
         });
     });
 };
