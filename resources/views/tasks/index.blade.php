@@ -19,14 +19,12 @@
         <div>
             <label for="search" class="ui-label">Cari berdasarkan judul</label>
             <input id="search" name="search" type="search" value="{{ $search }}"
-                placeholder="Masukkan judul tugas"
-                class="ui-control">
+                placeholder="Masukkan judul tugas" class="ui-control">
         </div>
 
         <div>
             <label for="category-filter" class="ui-label">Filter kategori</label>
-            <select id="category-filter" name="category"
-                class="ui-control">
+            <select id="category-filter" name="category" class="ui-control">
                 <option value="">Semua kategori</option>
                 @foreach ($categories as $categoryOption)
                     <option value="{{ $categoryOption }}" @selected($category === $categoryOption)>
@@ -37,13 +35,11 @@
         </div>
 
         <div class="flex flex-wrap gap-2">
-            <button type="submit"
-                class="ui-button ui-button-primary">
+            <button type="submit" class="ui-button ui-button-primary">
                 Terapkan
             </button>
             @if ($search !== '' || $category !== null)
-                <a href="{{ route('tasks.index') }}"
-                    class="ui-button ui-button-secondary">
+                <a href="{{ route('tasks.index') }}" class="ui-button ui-button-secondary">
                     Reset
                 </a>
             @endif
@@ -96,8 +92,7 @@
                         </div>
                     </dl>
 
-                    <a href="{{ route('tasks.show', $task) }}"
-                        class="mt-5 inline-flex min-h-11 items-center justify-center rounded-xl border border-primary px-4 py-2.5 text-sm font-semibold text-primary transition hover:bg-primary hover:text-white focus:outline-none focus:ring-3 focus:ring-primary/20">
+                    <a href="{{ route('tasks.show', $task) }}" class="mt-3 ui-button ui-button-secondary">
                         Lihat Detail
                     </a>
                 </article>

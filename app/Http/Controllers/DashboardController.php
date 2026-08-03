@@ -62,16 +62,16 @@ class DashboardController extends Controller
         $taskProgress = Task::query()
             ->where('status', Task::STATUS_ACTIVE)
             ->withCount([
-                'submissions as participant_submissions_count' => fn ($query) => $query
+                'submissions as participant_submissions_count' => fn($query) => $query
                     ->whereHas(
                         'user',
-                        fn (Builder $query) => $query->where('role', User::ROLE_USER),
+                        fn(Builder $query) => $query->where('role', User::ROLE_USER),
                     ),
             ])
             ->orderBy('deadline')
             ->limit(5)
             ->get()
-            ->map(fn (Task $task): array => [
+            ->map(fn(Task $task): array => [
                 'task' => $task,
                 'submitted_count' => $task->participant_submissions_count,
                 'percentage' => $totalParticipants > 0
@@ -100,7 +100,7 @@ class DashboardController extends Controller
         $submittedCount = (clone $activeTasks)
             ->whereHas(
                 'submissions',
-                fn (Builder $query) => $query
+                fn(Builder $query) => $query
                     ->where('user_id', $participantId)
                     ->where('status', Submission::STATUS_SUBMITTED),
             )
@@ -108,7 +108,7 @@ class DashboardController extends Controller
         $lateCount = (clone $activeTasks)
             ->whereHas(
                 'submissions',
-                fn (Builder $query) => $query
+                fn(Builder $query) => $query
                     ->where('user_id', $participantId)
                     ->where('status', Submission::STATUS_LATE),
             )
@@ -116,20 +116,20 @@ class DashboardController extends Controller
         $notSubmittedCount = (clone $activeTasks)
             ->whereDoesntHave(
                 'submissions',
-                fn (Builder $query) => $query->where('user_id', $participantId),
+                fn(Builder $query) => $query->where('user_id', $participantId),
             )
             ->count();
 
         $urgentTasksQuery = Task::query()
             ->where('status', Task::STATUS_ACTIVE)
             ->where(
-                fn (Builder $query) => $query
+                fn(Builder $query) => $query
                     ->whereNull('start_date')
                     ->orWhere('start_date', '<=', now()),
             )
             ->whereDoesntHave(
                 'submissions',
-                fn (Builder $query) => $query->where('user_id', $participantId),
+                fn(Builder $query) => $query->where('user_id', $participantId),
             );
 
         $urgentTasks = (clone $urgentTasksQuery)
@@ -160,6 +160,8 @@ class DashboardController extends Controller
                 : 0,
         ];
 
+        $latestSubmissionCount = $latestSubmissions->count();
+
         return view('dashboard', [
             'pageTitle' => 'Dasbor Peserta',
             'description' => 'Area kerja peserta untuk mengikuti tugas dan pengumpulan pelatihan.',
@@ -168,6 +170,7 @@ class DashboardController extends Controller
             'nearestDeadlineTask' => $nearestDeadlineTask,
             'urgentTasks' => $urgentTasks,
             'latestSubmissions' => $latestSubmissions,
+            'latestSubmissionCount' => $latestSubmissionCount
         ]);
     }
 }

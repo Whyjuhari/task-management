@@ -92,7 +92,7 @@
     }
 
     .ui-button-primary {
-        @apply bg-primary text-white hover:bg-navy focus:ring-primary/25;
+        @apply bg-primary text-white hover:bg-secondary focus:ring-primary/25;
     }
 
     .ui-button-secondary {
@@ -121,17 +121,15 @@
 
     .ui-stat-grid {
         display: grid;
-        gap: 1px;
-        overflow: hidden;
-        border: 1px solid var(--color-border);
-        border-radius: var(--radius-surface);
-        background-color: var(--color-border);
-        box-shadow: var(--shadow-surface);
+        gap: 0.75rem;
     }
 
     .ui-stat-item {
         min-width: 0;
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-surface);
         background-color: var(--color-card);
+        box-shadow: var(--shadow-surface);
     }
 
     .page-enter {

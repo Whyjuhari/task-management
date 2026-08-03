@@ -11,9 +11,9 @@
     </x-page-header>
 
     <section aria-label="Ringkasan pengumpulan" class="ui-stat-grid mb-6 sm:grid-cols-3">
-        <x-stat-item label="Total Pengumpulan" :value="$statistics['total']" />
-        <x-stat-item label="Tepat Waktu" :value="$statistics['submitted']" tone="success" />
-        <x-stat-item label="Terlambat" :value="$statistics['late']" tone="warning" />
+        <x-stat-item label="Total Pengumpulan" :value="$statistics['total']" icon="submissions" />
+        <x-stat-item label="Tepat Waktu" :value="$statistics['submitted']" tone="success" icon="done" />
+        <x-stat-item label="Terlambat" :value="$statistics['late']" tone="warning" icon="late" />
     </section>
 
     @if ($submissions->isEmpty())

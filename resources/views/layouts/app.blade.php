@@ -13,7 +13,7 @@
 
 <body class="overflow-x-hidden antialiased">
     <a href="#main-content"
-        class="fixed left-4 top-3 z-[70] -translate-y-20 rounded-lg bg-navy px-4 py-2.5 text-sm font-semibold text-white transition focus:translate-y-0">
+        class="fixed left-4 top-3 z-70 -translate-y-20 rounded-lg bg-navy px-4 py-2.5 text-sm font-semibold text-white transition focus:translate-y-0">
         Lewati ke konten utama
     </a>
 

@@ -16,7 +16,8 @@
         <section class="page-enter ui-surface w-full max-w-2xl overflow-hidden">
             <div class="border-b border-border px-6 py-5 sm:px-8">
                 <div class="flex items-center gap-3">
-                    <span class="flex size-10 items-center justify-center rounded-lg bg-primary text-white" aria-hidden="true">
+                    <span class="flex size-10 items-center justify-center rounded-lg bg-primary text-white"
+                        aria-hidden="true">
                         <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4" />
                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -31,7 +32,7 @@
             </div>
 
             <div class="px-6 py-8 sm:px-8 sm:py-10">
-                <p class="text-sm font-semibold text-primary">Konfigurasi aplikasi berhasil</p>
+                <p class="text-sm font-semibold text-primary">Setup Awal Dashboard Task Management.</p>
                 <h1 class="mt-2 text-3xl font-semibold tracking-tight text-navy sm:text-4xl">
                     {{ config('app.name') }}
                 </h1>
