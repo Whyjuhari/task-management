@@ -5,7 +5,6 @@ use App\Http\Controllers\AuthenticatedSessionController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ParticipantController;
 use App\Http\Controllers\ParticipantTaskController;
-use App\Http\Controllers\PlaceholderController;
 use App\Http\Controllers\SubmissionController;
 use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Route;
@@ -40,7 +39,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/tasks/{task}/submission/create', [SubmissionController::class, 'create'])->name('submissions.create');
         Route::post('/tasks/{task}/submission', [SubmissionController::class, 'store'])->name('submissions.store');
         Route::get('/tasks/{task}', [ParticipantTaskController::class, 'show'])->name('tasks.show');
-        Route::get('/submissions', [PlaceholderController::class, 'submissions'])->name('submissions.index');
+        Route::get('/submissions', [SubmissionController::class, 'index'])->name('submissions.index');
         Route::get('/submissions/{submission}', [SubmissionController::class, 'show'])->name('submissions.show');
         Route::get('/submissions/{submission}/edit', [SubmissionController::class, 'edit'])->name('submissions.edit');
         Route::put('/submissions/{submission}', [SubmissionController::class, 'update'])->name('submissions.update');

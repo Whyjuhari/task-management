@@ -11,7 +11,7 @@
             data
         </p>
 
-        <div class="flex flex-wrap items-center gap-2">
+        <div class="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:items-center">
             @if ($paginator->onFirstPage())
                 <span aria-disabled="true"
                     class="inline-flex min-h-11 items-center justify-center rounded-lg border border-border bg-slate-50 px-4 text-sm font-semibold text-secondary opacity-70">
@@ -24,7 +24,7 @@
                 </a>
             @endif
 
-            <div class="hidden items-center gap-1 sm:flex">
+            <div class="order-first col-span-2 hidden items-center gap-1 sm:order-none sm:flex">
                 @foreach ($elements as $element)
                     @if (is_string($element))
                         <span class="inline-flex min-h-11 min-w-11 items-center justify-center px-2 text-sm text-secondary">

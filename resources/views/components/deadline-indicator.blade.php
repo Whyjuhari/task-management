@@ -28,7 +28,7 @@
 @endphp
 
 <span title="Deadline {{ $formattedDeadline }}" aria-label="Indikator deadline: {{ $label }}"
-    class="inline-flex max-w-full items-center gap-2 whitespace-nowrap rounded-full px-2.5 py-1 text-xs font-semibold ring-1 ring-inset {{ $styles }}">
-    <span class="size-2 rounded-full {{ $dotStyles }}" aria-hidden="true"></span>
+    class="inline-flex max-w-full items-center gap-2 whitespace-nowrap rounded-md px-2.5 py-1 text-xs font-semibold ring-1 ring-inset {{ $styles }}">
+    <span class="size-1.5 rounded-full {{ $dotStyles }}" aria-hidden="true"></span>
     {{ $label }}
 </span>

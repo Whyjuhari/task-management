@@ -21,8 +21,8 @@
 @if ($resolvedMessage)
     <div data-flash-message role="{{ $resolvedType === 'error' ? 'alert' : 'status' }}"
         aria-live="{{ $resolvedType === 'error' ? 'assertive' : 'polite' }}"
-        class="mb-6 flex min-h-12 items-center justify-between gap-3 rounded-xl border px-4 py-3 text-sm font-medium {{ $styles }}">
-        <p class="min-w-0 flex-1 break-words">{{ $resolvedMessage }}</p>
+        class="mb-6 flex min-h-12 items-center justify-between gap-3 rounded-xl border border-l-4 px-4 py-3 text-sm font-medium shadow-sm {{ $styles }}">
+        <p class="min-w-0 flex-1 break-words leading-6">{{ $resolvedMessage }}</p>
         <button type="button" data-flash-dismiss
             class="flex size-11 shrink-0 items-center justify-center rounded-lg transition hover:bg-black/5 focus:outline-none focus:ring-2 focus:ring-current/30"
             aria-label="Tutup pesan">

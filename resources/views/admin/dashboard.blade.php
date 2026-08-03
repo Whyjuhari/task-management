@@ -3,42 +3,27 @@
 @section('title', $pageTitle)
 
 @section('content')
-    <x-page-header :title="$pageTitle" :description="$description" />
+    <x-page-header :title="$pageTitle"
+        :description="'Selamat datang, '.auth()->user()->name.'. '.$description" />
 
-    <section class="mb-6 overflow-hidden rounded-xl border border-border bg-card shadow-sm">
-        <div class="bg-linear-to-r from-primary/10 via-primary/5 to-transparent px-5 py-6 sm:px-8 sm:py-8">
-            <p class="text-sm font-semibold text-primary">Selamat datang kembali</p>
-            <h2 class="mt-2 text-2xl font-semibold tracking-tight text-navy">{{ auth()->user()->name }}</h2>
-            <p class="mt-3 max-w-2xl text-sm leading-6 text-secondary sm:text-base">
-                Pantau tugas dan aktivitas pengumpulan peserta dari ringkasan terbaru berikut.
-            </p>
-        </div>
-    </section>
-
-    <section aria-label="Statistik dasbor admin" class="mb-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-6">
-        @foreach ([
-            ['label' => 'Total Tugas', 'value' => $statistics['total_tasks'], 'color' => 'text-navy'],
-            ['label' => 'Tugas Aktif', 'value' => $statistics['active_tasks'], 'color' => 'text-primary'],
-            ['label' => 'Total Peserta', 'value' => $statistics['total_participants'], 'color' => 'text-navy'],
-            ['label' => 'Total Pengumpulan', 'value' => $statistics['total_submissions'], 'color' => 'text-success'],
-            ['label' => 'Pengumpulan Terlambat', 'value' => $statistics['late_submissions'], 'color' => 'text-amber-700'],
-            ['label' => 'Mendekati Deadline', 'value' => $statistics['near_deadline_tasks'], 'color' => 'text-danger'],
-        ] as $statistic)
-            <article class="rounded-xl border border-border bg-card p-5 shadow-sm">
-                <p class="text-sm font-medium text-secondary">{{ $statistic['label'] }}</p>
-                <p class="mt-2 text-3xl font-bold {{ $statistic['color'] }}">{{ $statistic['value'] }}</p>
-            </article>
-        @endforeach
+    <section aria-label="Statistik dasbor admin"
+        class="ui-stat-grid mb-6 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-6">
+        <x-stat-item label="Total Tugas" :value="$statistics['total_tasks']" />
+        <x-stat-item label="Tugas Aktif" :value="$statistics['active_tasks']" tone="primary" />
+        <x-stat-item label="Total Peserta" :value="$statistics['total_participants']" />
+        <x-stat-item label="Total Pengumpulan" :value="$statistics['total_submissions']" tone="success" />
+        <x-stat-item label="Pengumpulan Terlambat" :value="$statistics['late_submissions']" tone="warning" />
+        <x-stat-item label="Mendekati Deadline" :value="$statistics['near_deadline_tasks']" tone="danger" />
     </section>
 
     <div class="grid gap-6 xl:grid-cols-2">
-        <section class="rounded-xl border border-border bg-card p-5 shadow-sm sm:p-6">
-            <div class="flex items-center justify-between gap-4 border-b border-border pb-4">
+        <section class="ui-surface p-5 sm:p-6">
+            <div class="ui-section-heading flex items-center justify-between gap-4">
                 <div>
                     <h2 class="text-lg font-semibold text-navy">Tugas Terbaru</h2>
                     <p class="mt-1 text-sm text-secondary">Lima tugas yang terakhir dibuat.</p>
                 </div>
-                <a href="{{ route('admin.tasks.index') }}" class="text-sm font-semibold text-primary hover:underline">
+                <a href="{{ route('admin.tasks.index') }}" class="inline-flex min-h-11 items-center text-sm font-semibold text-primary hover:underline">
                     Lihat semua
                 </a>
             </div>
@@ -68,8 +53,8 @@
             @endif
         </section>
 
-        <section class="rounded-xl border border-border bg-card p-5 shadow-sm sm:p-6">
-            <div class="border-b border-border pb-4">
+        <section class="ui-surface p-5 sm:p-6">
+            <div class="ui-section-heading">
                 <h2 class="text-lg font-semibold text-navy">Deadline Terdekat</h2>
                 <p class="mt-1 text-sm text-secondary">Tugas aktif dengan deadline yang akan datang.</p>
             </div>
@@ -102,14 +87,14 @@
             @endif
         </section>
 
-        <section class="rounded-xl border border-border bg-card p-5 shadow-sm sm:p-6">
-            <div class="flex items-center justify-between gap-4 border-b border-border pb-4">
+        <section class="ui-surface p-5 sm:p-6">
+            <div class="ui-section-heading flex items-center justify-between gap-4">
                 <div>
                     <h2 class="text-lg font-semibold text-navy">Aktivitas Pengumpulan Terbaru</h2>
                     <p class="mt-1 text-sm text-secondary">Lima pengumpulan terakhir dari peserta.</p>
                 </div>
                 <a href="{{ route('admin.submissions.index') }}"
-                    class="text-sm font-semibold text-primary hover:underline">
+                    class="inline-flex min-h-11 items-center text-sm font-semibold text-primary hover:underline">
                     Monitoring
                 </a>
             </div>
@@ -143,8 +128,8 @@
             @endif
         </section>
 
-        <section class="rounded-xl border border-border bg-card p-5 shadow-sm sm:p-6">
-            <div class="border-b border-border pb-4">
+        <section class="ui-surface p-5 sm:p-6">
+            <div class="ui-section-heading">
                 <h2 class="text-lg font-semibold text-navy">Progres Pengumpulan</h2>
                 <p class="mt-1 text-sm text-secondary">Perbandingan peserta yang mengumpulkan pada tugas aktif.</p>
             </div>
@@ -170,7 +155,7 @@
                             <div class="mt-3 h-2.5 overflow-hidden rounded-full bg-slate-100" role="progressbar"
                                 aria-label="Progres {{ $progress['task']->title }}"
                                 aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{ $progress['percentage'] }}">
-                                <div class="h-full rounded-full bg-primary transition-all"
+                                <div class="h-full rounded-full bg-primary transition-[width] duration-300"
                                     style="width: {{ min(100, $progress['percentage']) }}%"></div>
                             </div>
                             <p class="mt-2 text-xs text-secondary">

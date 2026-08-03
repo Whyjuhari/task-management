@@ -21,6 +21,6 @@
     };
 @endphp
 
-<span class="inline-flex max-w-full items-center whitespace-nowrap rounded-full px-2.5 py-1 text-xs font-semibold ring-1 ring-inset {{ $styles }}">
+<span class="inline-flex max-w-full items-center whitespace-nowrap rounded-md px-2.5 py-1 text-xs font-semibold ring-1 ring-inset {{ $styles }}">
     {{ $label ?? $defaultLabel }}
 </span>

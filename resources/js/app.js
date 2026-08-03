@@ -6,8 +6,14 @@ const initializeDashboardInteractions = () => {
     const drawerCloseButtons = document.querySelectorAll('[data-drawer-close], [data-drawer-link]');
     const flashDismissButtons = document.querySelectorAll('[data-flash-dismiss]');
     const deleteForms = document.querySelectorAll('[data-confirm-delete]');
+    const confirmDialog = document.querySelector('[data-confirm-dialog]');
+    const confirmMessage = confirmDialog?.querySelector('[data-confirm-message]');
+    const confirmCancelButton = confirmDialog?.querySelector('[data-confirm-cancel]');
+    const confirmSubmitButton = confirmDialog?.querySelector('[data-confirm-submit]');
 
     if (drawer && drawerOverlay && drawerOpenButton) {
+        let overlayHideTimeout;
+
         const updateDrawerAccessibility = (isOpen) => {
             const isDesktop = window.innerWidth >= 1024;
 
@@ -28,7 +34,10 @@ const initializeDashboardInteractions = () => {
 
         const openDrawer = () => {
             drawer.classList.remove('-translate-x-full');
-            drawerOverlay.classList.remove('hidden');
+            window.clearTimeout(overlayHideTimeout);
+            drawerOverlay.classList.remove('invisible', 'pointer-events-none');
+            window.requestAnimationFrame(() => drawerOverlay.classList.remove('opacity-0'));
+            drawerOverlay.setAttribute('aria-hidden', 'false');
             drawerOpenButton.setAttribute('aria-expanded', 'true');
             document.body.classList.add('overflow-hidden');
             updateDrawerAccessibility(true);
@@ -38,7 +47,9 @@ const initializeDashboardInteractions = () => {
 
         const closeDrawer = (restoreFocus = false) => {
             drawer.classList.add('-translate-x-full');
-            drawerOverlay.classList.add('hidden');
+            drawerOverlay.classList.add('pointer-events-none', 'opacity-0');
+            drawerOverlay.setAttribute('aria-hidden', 'true');
+            overlayHideTimeout = window.setTimeout(() => drawerOverlay.classList.add('invisible'), 200);
             drawerOpenButton.setAttribute('aria-expanded', 'false');
             document.body.classList.remove('overflow-hidden');
             updateDrawerAccessibility(false);
@@ -77,18 +88,67 @@ const initializeDashboardInteractions = () => {
         });
     });
 
-    deleteForms.forEach((form) => {
-        form.addEventListener('submit', (event) => {
-            const taskTitle = form.dataset.taskTitle ?? 'ini';
-            const confirmed = window.confirm(
-                `Hapus tugas "${taskTitle}"? Tugas dan pengumpulan terkait akan dihapus permanen.`,
-            );
+    if (confirmDialog && confirmMessage && confirmCancelButton && confirmSubmitButton) {
+        let pendingDeleteForm = null;
+        let pendingDeleteTrigger = null;
 
-            if (!confirmed) {
+        const closeConfirmDialog = (restoreFocus = true) => {
+            confirmDialog.close();
+            pendingDeleteForm = null;
+
+            if (restoreFocus) {
+                window.requestAnimationFrame(() => pendingDeleteTrigger?.focus());
+            }
+        };
+
+        deleteForms.forEach((form) => {
+            form.addEventListener('submit', (event) => {
                 event.preventDefault();
+                pendingDeleteForm = form;
+                pendingDeleteTrigger = form.querySelector('button[type="submit"]');
+
+                const taskTitle = form.dataset.taskTitle ?? 'ini';
+                confirmMessage.textContent = `Tugas “${taskTitle}” dan seluruh pengumpulan terkait akan dihapus permanen.`;
+                confirmDialog.showModal();
+                confirmSubmitButton.focus();
+            });
+        });
+
+        confirmCancelButton.addEventListener('click', () => closeConfirmDialog());
+        confirmDialog.addEventListener('cancel', (event) => {
+            event.preventDefault();
+            closeConfirmDialog();
+        });
+        confirmDialog.addEventListener('click', (event) => {
+            if (event.target === confirmDialog) {
+                closeConfirmDialog();
             }
         });
-    });
+        confirmSubmitButton.addEventListener('click', () => {
+            const form = pendingDeleteForm;
+
+            if (!form) {
+                closeConfirmDialog(false);
+                return;
+            }
+
+            closeConfirmDialog(false);
+            HTMLFormElement.prototype.submit.call(form);
+        });
+    } else {
+        deleteForms.forEach((form) => {
+            form.addEventListener('submit', (event) => {
+                const taskTitle = form.dataset.taskTitle ?? 'ini';
+                const confirmed = window.confirm(
+                    `Hapus tugas "${taskTitle}"? Tugas dan pengumpulan terkait akan dihapus permanen.`,
+                );
+
+                if (!confirmed) {
+                    event.preventDefault();
+                }
+            });
+        });
+    }
 };
 
 if (document.readyState === 'loading') {

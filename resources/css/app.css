@@ -18,9 +18,17 @@
     --color-danger: #dc2626;
 }
 
+:root {
+    --radius-control: 0.625rem;
+    --radius-surface: 0.75rem;
+    --shadow-surface: 0 1px 2px rgb(15 23 42 / 0.04), 0 1px 3px rgb(15 23 42 / 0.03);
+    --shadow-floating: 0 18px 45px rgb(15 23 42 / 0.18);
+}
+
 @layer base {
     html {
         overflow-x: hidden;
+        scroll-behavior: smooth;
     }
 
     body {
@@ -31,7 +39,153 @@
     }
 
     :where(a, button, input, select, textarea):focus-visible {
-        outline: 3px solid #2563eb;
+        outline: 3px solid var(--color-primary);
         outline-offset: 2px;
+    }
+
+    :where(button, input, select, textarea) {
+        font: inherit;
+    }
+
+    :where(button:not(:disabled), [role='button']) {
+        cursor: pointer;
+    }
+
+    ::selection {
+        background-color: rgb(27 68 111 / 0.18);
+    }
+}
+
+@layer components {
+    .ui-surface {
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-surface);
+        background-color: var(--color-card);
+        box-shadow: var(--shadow-surface);
+    }
+
+    .ui-surface-muted {
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-surface);
+        background-color: rgb(248 250 252 / 0.82);
+    }
+
+    .ui-filter-panel {
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-surface);
+        background-color: var(--color-card);
+        box-shadow: var(--shadow-surface);
+    }
+
+    .ui-label {
+        @apply mb-2 block text-sm font-semibold text-navy;
+    }
+
+    .ui-control {
+        @apply min-h-11 w-full border border-border bg-card px-4 py-3 text-sm text-navy outline-none transition placeholder:text-slate-400 focus:border-primary focus:ring-3 focus:ring-primary/15;
+        border-radius: var(--radius-control);
+    }
+
+    .ui-button {
+        @apply inline-flex min-h-11 items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold transition focus:outline-none focus:ring-3;
+        border-radius: var(--radius-control);
+    }
+
+    .ui-button-primary {
+        @apply bg-primary text-white hover:bg-navy focus:ring-primary/25;
+    }
+
+    .ui-button-secondary {
+        @apply border border-border bg-card text-navy hover:border-slate-300 hover:bg-slate-50 focus:ring-primary/15;
+    }
+
+    .ui-button-danger {
+        @apply border border-danger/30 bg-card text-danger hover:bg-danger hover:text-white focus:ring-danger/20;
+    }
+
+    .ui-link {
+        @apply font-semibold text-primary underline decoration-primary/25 underline-offset-4 transition hover:decoration-primary;
+    }
+
+    .ui-section-heading {
+        @apply border-b border-border pb-4;
+    }
+
+    .ui-section-heading h2 {
+        @apply text-base font-semibold text-navy sm:text-lg;
+    }
+
+    .ui-section-heading p {
+        @apply mt-1 text-sm leading-6 text-secondary;
+    }
+
+    .ui-stat-grid {
+        display: grid;
+        gap: 1px;
+        overflow: hidden;
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-surface);
+        background-color: var(--color-border);
+        box-shadow: var(--shadow-surface);
+    }
+
+    .ui-stat-item {
+        min-width: 0;
+        background-color: var(--color-card);
+    }
+
+    .page-enter {
+        animation: page-enter 180ms ease-out both;
+    }
+
+    .dialog-panel {
+        box-shadow: var(--shadow-floating);
+    }
+}
+
+dialog::backdrop {
+    background: rgb(15 23 42 / 0.62);
+}
+
+dialog[open] .dialog-panel {
+    animation: dialog-enter 160ms ease-out both;
+}
+
+@keyframes page-enter {
+    from {
+        opacity: 0;
+        transform: translateY(4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes dialog-enter {
+    from {
+        opacity: 0;
+        transform: translateY(8px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
     }
 }

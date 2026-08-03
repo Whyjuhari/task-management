@@ -16,14 +16,14 @@
 @section('content')
     <x-page-header :title="$task->title" description="Informasi lengkap tugas pelatihan.">
         <a href="{{ route('tasks.index') }}"
-            class="inline-flex min-h-11 items-center rounded-xl border border-border bg-card px-4 py-2.5 text-sm font-semibold text-navy transition hover:bg-slate-50 focus:outline-none focus:ring-3 focus:ring-primary/15">
+            class="ui-button ui-button-secondary">
             Kembali ke Daftar
         </a>
     </x-page-header>
 
     <div class="grid gap-6 xl:grid-cols-[minmax(0,1fr)_340px]">
         <div class="space-y-6">
-            <section class="rounded-xl border border-border bg-card p-5 shadow-sm sm:p-8">
+            <section class="ui-surface p-5 sm:p-8">
                 <div class="flex flex-wrap gap-2 border-b border-border pb-5">
                     <x-status-badge :status="$task->status" />
                     <x-status-badge :status="$personalStatus" />
@@ -66,7 +66,7 @@
                 </dl>
             </section>
 
-            <section class="rounded-xl border border-border bg-card p-5 shadow-sm sm:p-8">
+            <section class="ui-surface p-5 sm:p-8">
                 <h2 class="text-lg font-semibold text-navy">Deskripsi</h2>
                 <p class="mt-3 whitespace-pre-line text-sm leading-7 text-secondary">{{ $task->description }}</p>
 
@@ -79,7 +79,7 @@
             </section>
         </div>
 
-        <aside class="h-fit rounded-xl border border-border bg-card p-5 shadow-sm sm:p-6">
+        <aside class="ui-surface h-fit p-5 sm:p-6">
             <p class="text-xs font-semibold uppercase tracking-wider text-secondary">Status pengumpulan Anda</p>
             <div class="mt-3">
                 <x-status-badge :status="$personalStatus" />
@@ -100,20 +100,20 @@
                 @if ($submission)
                     <div class="mt-4 grid gap-3">
                         <a href="{{ route('submissions.show', $submission) }}"
-                            class="inline-flex min-h-11 w-full items-center justify-center rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-700 focus:outline-none focus:ring-3 focus:ring-primary/25">
+                            class="ui-button ui-button-primary w-full">
                             Lihat Pengumpulan
                         </a>
 
                         @if ($task->canBeSubmitted())
                             <a href="{{ route('submissions.edit', $submission) }}"
-                                class="inline-flex min-h-11 w-full items-center justify-center rounded-xl border border-border bg-card px-4 py-2.5 text-sm font-semibold text-navy transition hover:bg-slate-50 focus:outline-none focus:ring-3 focus:ring-primary/15">
+                                class="ui-button ui-button-secondary w-full">
                                 Perbarui Pengumpulan
                             </a>
                         @endif
                     </div>
                 @elseif ($task->canBeSubmitted())
                     <a href="{{ route('submissions.create', $task) }}"
-                        class="mt-4 inline-flex min-h-11 w-full items-center justify-center rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-700 focus:outline-none focus:ring-3 focus:ring-primary/25">
+                        class="ui-button ui-button-primary mt-4 w-full">
                         Kumpulkan Tugas
                     </a>
                 @else

@@ -14,11 +14,11 @@
     <x-page-header :title="$task->title" description="Detail lengkap tugas pelatihan.">
         <div class="flex flex-wrap gap-2">
             <a href="{{ route('admin.tasks.index') }}"
-                class="inline-flex min-h-11 items-center rounded-xl border border-border bg-card px-4 py-2.5 text-sm font-semibold text-navy transition hover:bg-slate-50">
+                class="ui-button ui-button-secondary">
                 Kembali
             </a>
             <a href="{{ route('admin.tasks.edit', $task) }}"
-                class="inline-flex min-h-11 items-center rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-navy">
+                class="ui-button ui-button-primary">
                 Edit Tugas
             </a>
         </div>
@@ -26,7 +26,7 @@
 
     <div class="grid gap-6 xl:grid-cols-[minmax(0,1fr)_320px]">
         <div class="space-y-6">
-            <section class="rounded-xl border border-border bg-card p-5 shadow-sm sm:p-8">
+            <section class="ui-surface p-5 sm:p-8">
                 <div class="flex flex-wrap items-center justify-between gap-3 border-b border-border pb-5">
                     <div>
                         <p class="text-xs font-semibold uppercase tracking-wider text-secondary">Status tugas</p>
@@ -64,7 +64,7 @@
                 </dl>
             </section>
 
-            <section class="rounded-xl border border-border bg-card p-5 shadow-sm sm:p-8">
+            <section class="ui-surface p-5 sm:p-8">
                 <h2 class="text-lg font-semibold text-navy">Deskripsi</h2>
                 <p class="mt-3 whitespace-pre-line text-sm leading-7 text-secondary">{{ $task->description }}</p>
 
@@ -77,7 +77,7 @@
             </section>
         </div>
 
-        <aside class="h-fit rounded-xl border border-danger/20 bg-card p-5 shadow-sm">
+        <aside class="ui-surface h-fit border-danger/20 p-5">
             <h2 class="font-semibold text-navy">Hapus tugas</h2>
             <p class="mt-2 text-sm leading-6 text-secondary">
                 Tugas dan seluruh pengumpulan terkait akan dihapus permanen.
@@ -87,7 +87,7 @@
                 @csrf
                 @method('DELETE')
                 <button type="submit"
-                    class="min-h-11 w-full cursor-pointer rounded-xl border border-danger/30 px-4 py-2.5 text-sm font-semibold text-danger transition hover:bg-danger hover:text-white focus:outline-none focus:ring-3 focus:ring-danger/20">
+                    class="ui-button ui-button-danger w-full">
                     Hapus Tugas
                 </button>
             </form>

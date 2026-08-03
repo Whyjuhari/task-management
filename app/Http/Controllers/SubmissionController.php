@@ -16,6 +16,35 @@ use Throwable;
 
 class SubmissionController extends Controller
 {
+    public function index(Request $request): View
+    {
+        $participant = $request->user();
+        $submissionsQuery = $participant->submissions();
+
+        $statistics = [
+            'total' => (clone $submissionsQuery)->count(),
+            'submitted' => (clone $submissionsQuery)
+                ->where('status', Submission::STATUS_SUBMITTED)
+                ->count(),
+            'late' => (clone $submissionsQuery)
+                ->where('status', Submission::STATUS_LATE)
+                ->count(),
+        ];
+
+        $submissions = $submissionsQuery
+            ->with('task')
+            ->latest('submitted_at')
+            ->latest('id')
+            ->paginate(10);
+
+        return view('submissions.index', [
+            'pageTitle' => 'Pengumpulan Saya',
+            'description' => 'Riwayat tugas yang sudah Anda kumpulkan.',
+            'statistics' => $statistics,
+            'submissions' => $submissions,
+        ]);
+    }
+
     public function create(Request $request, Task $task): View|RedirectResponse
     {
         $this->ensureTaskAcceptsSubmissions($task);

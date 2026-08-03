@@ -4,10 +4,8 @@
 
 @section('content')
     <x-page-header title="Kelola Tugas" description="Buat, cari, dan kelola tugas peserta pelatihan.">
-        <a href="{{ route('admin.tasks.create') }}"
-            class="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-primary px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-navy focus:outline-none focus:ring-3 focus:ring-primary/30">
-            <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                aria-hidden="true">
+        <a href="{{ route('admin.tasks.create') }}" class="ui-button ui-button-primary px-5">
+            <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 5v14M5 12h14" />
             </svg>
             Buat Tugas
@@ -21,18 +19,16 @@
     @endif
 
     <form method="GET" action="{{ route('admin.tasks.index') }}"
-        class="mb-6 grid gap-4 rounded-xl border border-border bg-card p-4 shadow-sm md:grid-cols-[minmax(0,1fr)_220px_auto] md:items-end sm:p-5">
+        class="ui-filter-panel mb-6 grid gap-4 p-4 sm:p-5 md:grid-cols-[minmax(0,1fr)_220px_auto] md:items-end">
         <div>
-            <label for="search" class="mb-2 block text-sm font-semibold text-navy">Cari berdasarkan judul</label>
+            <label for="search" class="ui-label">Cari berdasarkan judul</label>
             <input id="search" name="search" type="search" value="{{ $search }}"
-                placeholder="Masukkan judul tugas"
-                class="min-h-11 w-full rounded-xl border border-border bg-card px-4 py-3 text-sm text-navy outline-none transition placeholder:text-slate-400 focus:border-primary focus:ring-3 focus:ring-primary/15">
+                placeholder="Masukkan judul tugas" class="ui-control">
         </div>
 
         <div>
-            <label for="status-filter" class="mb-2 block text-sm font-semibold text-navy">Filter status</label>
-            <select id="status-filter" name="status"
-                class="min-h-11 w-full rounded-xl border border-border bg-card px-4 py-3 text-sm text-navy outline-none transition focus:border-primary focus:ring-3 focus:ring-primary/15">
+            <label for="status-filter" class="ui-label">Filter status</label>
+            <select id="status-filter" name="status" class="ui-control">
                 <option value="">Semua status</option>
                 <option value="draft" @selected($status === 'draft')>Draf</option>
                 <option value="active" @selected($status === 'active')>Aktif</option>
@@ -41,13 +37,11 @@
         </div>
 
         <div class="flex flex-wrap gap-2">
-            <button type="submit"
-                class="min-h-11 cursor-pointer rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-navy focus:outline-none focus:ring-3 focus:ring-primary/30">
+            <button type="submit" class="ui-button ui-button-primary">
                 Terapkan
             </button>
             @if ($search !== '' || $status !== null)
-                <a href="{{ route('admin.tasks.index') }}"
-                    class="inline-flex min-h-11 items-center rounded-xl border border-border px-4 py-2.5 text-sm font-semibold text-navy transition hover:bg-slate-50 focus:outline-none focus:ring-3 focus:ring-primary/15">
+                <a href="{{ route('admin.tasks.index') }}" class="ui-button ui-button-secondary">
                     Reset
                 </a>
             @endif
@@ -55,10 +49,9 @@
     </form>
 
     @if ($tasks->isEmpty())
-        <x-empty-state :title="$search !== '' || $status !== null ? 'Tugas tidak ditemukan' : 'Belum ada tugas'"
-            :description="$search !== '' || $status !== null
-                ? 'Coba ubah kata pencarian atau filter status yang digunakan.'
-                : 'Buat tugas pertama untuk memulai kegiatan pelatihan.'">
+        <x-empty-state :title="$search !== '' || $status !== null ? 'Tugas tidak ditemukan' : 'Belum ada tugas'" :description="$search !== '' || $status !== null
+                        ? 'Coba ubah kata pencarian atau filter status yang digunakan.'
+                        : 'Buat tugas pertama untuk memulai kegiatan pelatihan.'">
             @if ($search === '' && $status === null)
                 <a href="{{ route('admin.tasks.create') }}"
                     class="inline-flex min-h-11 items-center rounded-xl bg-primary px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-navy focus:outline-none focus:ring-3 focus:ring-primary/30">
@@ -67,9 +60,9 @@
             @endif
         </x-empty-state>
     @else
-        <div class="hidden overflow-hidden rounded-xl border border-border bg-card shadow-sm xl:block">
+        <div class="ui-surface hidden overflow-hidden xl:block">
             <div class="overflow-x-auto" tabindex="0" aria-label="Tabel tugas dapat digeser secara horizontal">
-                <table class="w-full min-w-[920px] text-left text-sm">
+                <table class="w-full min-w-920px text-left text-sm">
                     <caption class="sr-only">Daftar tugas pelatihan</caption>
                     <thead class="border-b border-border bg-slate-50 text-xs uppercase tracking-wider text-secondary">
                         <tr>
@@ -98,7 +91,10 @@
                                     <x-status-badge :status="$task->status" />
                                 </td>
                                 <td class="px-5 py-4">
-                                    @include('admin.tasks._status-form', ['task' => $task, 'context' => 'desktop'])
+                                    @include('admin.tasks._status-form', [
+                                        'task' => $task,
+                                        'context' => 'desktop',
+                                    ])
                                 </td>
                                 <td class="px-5 py-4">
                                     <div class="flex justify-end gap-2">
@@ -130,7 +126,7 @@
 
         <div class="space-y-4 xl:hidden">
             @foreach ($tasks as $task)
-                <article class="rounded-xl border border-border bg-card p-5 shadow-sm">
+                <article class="ui-surface p-5">
                     <div class="flex items-start justify-between gap-3">
                         <div class="min-w-0">
                             <a href="{{ route('admin.tasks.show', $task) }}"

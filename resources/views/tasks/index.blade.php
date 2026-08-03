@@ -15,18 +15,18 @@
     @endif
 
     <form method="GET" action="{{ route('tasks.index') }}"
-        class="mb-6 grid gap-4 rounded-xl border border-border bg-card p-4 shadow-sm md:grid-cols-[minmax(0,1fr)_240px_auto] md:items-end sm:p-5">
+        class="ui-filter-panel mb-6 grid gap-4 p-4 sm:p-5 md:grid-cols-[minmax(0,1fr)_240px_auto] md:items-end">
         <div>
-            <label for="search" class="mb-2 block text-sm font-semibold text-navy">Cari berdasarkan judul</label>
+            <label for="search" class="ui-label">Cari berdasarkan judul</label>
             <input id="search" name="search" type="search" value="{{ $search }}"
                 placeholder="Masukkan judul tugas"
-                class="min-h-11 w-full rounded-xl border border-border bg-card px-4 py-3 text-sm text-navy outline-none transition placeholder:text-slate-400 focus:border-primary focus:ring-3 focus:ring-primary/15">
+                class="ui-control">
         </div>
 
         <div>
-            <label for="category-filter" class="mb-2 block text-sm font-semibold text-navy">Filter kategori</label>
+            <label for="category-filter" class="ui-label">Filter kategori</label>
             <select id="category-filter" name="category"
-                class="min-h-11 w-full rounded-xl border border-border bg-card px-4 py-3 text-sm text-navy outline-none transition focus:border-primary focus:ring-3 focus:ring-primary/15">
+                class="ui-control">
                 <option value="">Semua kategori</option>
                 @foreach ($categories as $categoryOption)
                     <option value="{{ $categoryOption }}" @selected($category === $categoryOption)>
@@ -38,12 +38,12 @@
 
         <div class="flex flex-wrap gap-2">
             <button type="submit"
-                class="min-h-11 cursor-pointer rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-navy focus:outline-none focus:ring-3 focus:ring-primary/30">
+                class="ui-button ui-button-primary">
                 Terapkan
             </button>
             @if ($search !== '' || $category !== null)
                 <a href="{{ route('tasks.index') }}"
-                    class="inline-flex min-h-11 items-center rounded-xl border border-border px-4 py-2.5 text-sm font-semibold text-navy transition hover:bg-slate-50 focus:outline-none focus:ring-3 focus:ring-primary/15">
+                    class="ui-button ui-button-secondary">
                     Reset
                 </a>
             @endif
@@ -58,7 +58,7 @@
             @foreach ($tasks as $task)
                 @php($personalStatus = $task->personalStatusFor($participant))
 
-                <article class="flex min-w-0 flex-col rounded-xl border border-border bg-card p-5 shadow-sm">
+                <article class="ui-surface flex min-w-0 flex-col p-5 transition hover:border-slate-300">
                     <div class="flex flex-wrap items-center gap-2">
                         <x-status-badge :status="$task->status" />
                         <x-status-badge :status="$personalStatus" />

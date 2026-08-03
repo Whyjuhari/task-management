@@ -10,7 +10,7 @@
         <x-empty-state title="Belum ada peserta"
             description="Data akan tampil setelah pengguna dengan peran peserta tersedia." />
     @else
-        <div class="hidden overflow-hidden rounded-xl border border-border bg-card shadow-sm xl:block">
+        <div class="ui-surface hidden overflow-hidden xl:block">
             <div class="overflow-x-auto" tabindex="0" aria-label="Tabel data peserta dapat digeser secara horizontal">
                 <table class="w-full min-w-[940px] text-left text-sm">
                     <caption class="sr-only">Ringkasan pengumpulan seluruh peserta</caption>
@@ -44,7 +44,7 @@
         <div class="space-y-4 xl:hidden">
             @foreach ($participants as $participant)
                 @php($notSubmittedCount = max(0, $totalTasks - $participant->submitted_count - $participant->late_count))
-                <article class="rounded-xl border border-border bg-card p-5 shadow-sm">
+                <article class="ui-surface p-5">
                     <h2 class="font-semibold text-navy">{{ $participant->name }}</h2>
                     <p class="mt-1 break-all text-sm text-secondary">{{ $participant->email }}</p>
 

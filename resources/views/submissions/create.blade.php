@@ -5,7 +5,7 @@
 @section('content')
     <x-page-header title="Kumpulkan Tugas" :description="$task->title">
         <a href="{{ route('tasks.show', $task) }}"
-            class="inline-flex min-h-11 items-center rounded-xl border border-border bg-card px-4 py-2.5 text-sm font-semibold text-navy transition hover:bg-slate-50 focus:outline-none focus:ring-3 focus:ring-primary/15">
+            class="ui-button ui-button-secondary">
             Kembali ke Detail Tugas
         </a>
     </x-page-header>

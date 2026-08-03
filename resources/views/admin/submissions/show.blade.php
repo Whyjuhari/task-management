@@ -5,13 +5,13 @@
 @section('content')
     <x-page-header title="Detail Pengumpulan Peserta" :description="$task->title">
         <a href="{{ route('admin.submissions.index', ['task_id' => $task->id]) }}"
-            class="inline-flex min-h-11 items-center rounded-xl border border-border bg-card px-4 py-2.5 text-sm font-semibold text-navy transition hover:bg-slate-50 focus:outline-none focus:ring-3 focus:ring-primary/15">
+            class="ui-button ui-button-secondary">
             Kembali ke Monitoring
         </a>
     </x-page-header>
 
     <div class="grid gap-6 xl:grid-cols-[minmax(0,1fr)_340px]">
-        <section class="rounded-xl border border-border bg-card p-5 shadow-sm sm:p-8">
+        <section class="ui-surface p-5 sm:p-8">
             <div class="flex flex-col gap-4 border-b border-border pb-5 sm:flex-row sm:items-start sm:justify-between">
                 <div>
                     <p class="text-sm text-secondary">Peserta</p>
@@ -32,7 +32,7 @@
                     </dd>
                     @if ($submission->file_path)
                         <a href="{{ route('admin.submissions.download', $submission) }}"
-                            class="mt-3 inline-flex min-h-11 items-center rounded-xl border border-primary/25 px-4 py-2.5 text-sm font-semibold text-primary transition hover:bg-primary/5 focus:outline-none focus:ring-3 focus:ring-primary/15">
+                            class="ui-button mt-3 border-primary/25 text-primary hover:bg-primary/5">
                             Unduh File
                         </a>
                     @endif
@@ -59,7 +59,7 @@
             </dl>
         </section>
 
-        <aside class="h-fit rounded-xl border border-border bg-card p-5 shadow-sm sm:p-6">
+        <aside class="ui-surface h-fit p-5 sm:p-6">
             <p class="text-xs font-semibold uppercase tracking-wider text-secondary">Informasi waktu</p>
             <dl class="mt-4 space-y-4">
                 <div>
