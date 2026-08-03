@@ -30,14 +30,6 @@ class PlaceholderController extends Controller
         );
     }
 
-    public function tasks(): View
-    {
-        return $this->show(
-            'Daftar Tugas',
-            'Halaman daftar tugas peserta akan tersedia pada tahap berikutnya.',
-        );
-    }
-
     public function submissions(): View
     {
         return $this->show(

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthenticatedSessionController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ParticipantTaskController;
 use App\Http\Controllers\PlaceholderController;
 use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Route;
@@ -28,7 +29,8 @@ Route::middleware('auth')->group(function () {
 
     Route::middleware('role:user')->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'participant'])->name('dashboard');
-        Route::get('/tasks', [PlaceholderController::class, 'tasks'])->name('tasks.index');
+        Route::get('/tasks', [ParticipantTaskController::class, 'index'])->name('tasks.index');
+        Route::get('/tasks/{task}', [ParticipantTaskController::class, 'show'])->name('tasks.show');
         Route::get('/submissions', [PlaceholderController::class, 'submissions'])->name('submissions.index');
     });
 });
