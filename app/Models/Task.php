@@ -108,7 +108,6 @@ class Task extends Model
     public function canBeSubmitted(): bool
     {
         return $this->status === self::STATUS_ACTIVE
-            && $this->deadline->isFuture()
             && ($this->start_date === null || $this->start_date->lessThanOrEqualTo(now()));
     }
 
