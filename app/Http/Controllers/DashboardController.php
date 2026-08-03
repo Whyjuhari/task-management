@@ -2,26 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class DashboardController extends Controller
 {
-    public function admin(Request $request): View
+    public function admin(): View
     {
         return view('dashboard', [
-            'user' => $request->user(),
             'pageTitle' => 'Dasbor Admin',
-            'roleLabel' => 'Admin / Instruktur',
+            'description' => 'Ringkasan area kerja instruktur untuk mengelola kegiatan pelatihan.',
         ]);
     }
 
-    public function participant(Request $request): View
+    public function participant(): View
     {
         return view('dashboard', [
-            'user' => $request->user(),
             'pageTitle' => 'Dasbor Peserta',
-            'roleLabel' => 'Peserta Pelatihan',
+            'description' => 'Area kerja peserta untuk mengikuti tugas dan pengumpulan pelatihan.',
         ]);
     }
 }
