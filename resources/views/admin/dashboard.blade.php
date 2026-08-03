@@ -92,7 +92,10 @@
                                     {{ $task->deadline->copy()->locale('id')->translatedFormat('d F Y, H:i') }}
                                 </p>
                             </div>
-                            <p class="text-sm font-semibold text-danger">{{ $task->remainingTime() }}</p>
+                            <div class="flex shrink-0 flex-col items-start gap-1 sm:items-end">
+                                <x-deadline-indicator :deadline="$task->deadline" />
+                                <p class="text-xs font-semibold text-secondary">{{ $task->remainingTime() }}</p>
+                            </div>
                         </article>
                     @endforeach
                 </div>

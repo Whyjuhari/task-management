@@ -83,46 +83,7 @@ class AdminSubmissionController extends Controller
             ->count();
         $notSubmittedCount = $totalParticipants - $submittedCount - $lateCount;
 
-        $participants = $participantQuery
-            ->with([
-                'submissions' => fn ($query) => $query
-                    ->where('task_id', $selectedTask->getKey()),
-            ])
-            ->when(
-                $search !== '',
-                fn (Builder $query) => $query->where(
-                    fn (Builder $query) => $query
-                        ->where('name', 'like', "%{$search}%")
-                        ->orWhere('email', 'like', "%{$search}%"),
-                ),
-            )
-            ->when(
-                $status === Submission::STATUS_SUBMITTED,
-                fn (Builder $query) => $query->whereHas(
-                    'submissions',
-                    fn (Builder $query) => $query
-                        ->where('task_id', $selectedTask->getKey())
-                        ->where('status', Submission::STATUS_SUBMITTED),
-                ),
-            )
-            ->when(
-                $status === Submission::STATUS_LATE,
-                fn (Builder $query) => $query->whereHas(
-                    'submissions',
-                    fn (Builder $query) => $query
-                        ->where('task_id', $selectedTask->getKey())
-                        ->where('status', Submission::STATUS_LATE),
-                ),
-            )
-            ->when(
-                $status === self::STATUS_NOT_SUBMITTED,
-                fn (Builder $query) => $query->whereDoesntHave(
-                    'submissions',
-                    fn (Builder $query) => $query
-                        ->where('task_id', $selectedTask->getKey()),
-                ),
-            )
-            ->orderBy('name')
+        $participants = $this->monitoringParticipantsQuery($selectedTask, $search, $status)
             ->paginate(12)
             ->withQueryString();
 
@@ -151,6 +112,84 @@ class AdminSubmissionController extends Controller
             'task' => $submission->task,
             'participant' => $submission->user,
         ]);
+    }
+
+    public function export(Request $request): StreamedResponse
+    {
+        $filters = $request->validate(
+            [
+                'task_id' => ['required', 'integer', Rule::exists('tasks', 'id')],
+                'search' => ['nullable', 'string', 'max:255'],
+                'status' => [
+                    'nullable',
+                    Rule::in([
+                        Submission::STATUS_SUBMITTED,
+                        Submission::STATUS_LATE,
+                        self::STATUS_NOT_SUBMITTED,
+                    ]),
+                ],
+            ],
+            [
+                'task_id.required' => 'Tugas wajib dipilih sebelum melakukan export.',
+                'task_id.integer' => 'Tugas yang dipilih tidak valid.',
+                'task_id.exists' => 'Tugas yang dipilih tidak ditemukan.',
+                'search.max' => 'Pencarian maksimal 255 karakter.',
+                'status.in' => 'Filter status tidak valid.',
+            ],
+        );
+
+        $task = Task::query()->findOrFail($filters['task_id']);
+        $search = trim($filters['search'] ?? '');
+        $status = $filters['status'] ?? null;
+        $participants = $this->monitoringParticipantsQuery($task, $search, $status)->get();
+        $taskSlug = Str::slug($task->title) ?: 'tugas';
+        $fileName = "monitoring-{$taskSlug}-".now()->format('Y-m-d').'.csv';
+
+        return response()->streamDownload(
+            function () use ($participants, $task): void {
+                $stream = fopen('php://output', 'w');
+
+                if ($stream === false) {
+                    return;
+                }
+
+                fwrite($stream, "\xEF\xBB\xBF");
+                fputcsv($stream, [
+                    'Nama Peserta',
+                    'Email',
+                    'Judul Tugas',
+                    'Status',
+                    'Waktu Pengumpulan',
+                    'Nama File',
+                    'Tautan',
+                    'Catatan',
+                ], ',', '"', '', "\r\n");
+
+                foreach ($participants as $participant) {
+                    $submission = $participant->submissions->first();
+                    $statusLabel = match ($submission?->status) {
+                        Submission::STATUS_SUBMITTED => 'Sudah Mengumpulkan',
+                        Submission::STATUS_LATE => 'Terlambat',
+                        default => 'Belum Mengumpulkan',
+                    };
+
+                    fputcsv($stream, [
+                        $participant->name,
+                        $participant->email,
+                        $task->title,
+                        $statusLabel,
+                        $submission?->submitted_at?->copy()->locale('id')->translatedFormat('d F Y, H:i') ?? '',
+                        $submission?->original_file_name ?? '',
+                        $submission?->submission_link ?? '',
+                        $submission?->note ?? '',
+                    ], ',', '"', '', "\r\n");
+                }
+
+                fclose($stream);
+            },
+            $fileName,
+            ['Content-Type' => 'text/csv; charset=UTF-8'],
+        );
     }
 
     public function download(Submission $submission): StreamedResponse
@@ -184,5 +223,53 @@ class AdminSubmissionController extends Controller
             $submission->user()->where('role', User::ROLE_USER)->exists(),
             404,
         );
+    }
+
+    private function monitoringParticipantsQuery(
+        Task $task,
+        string $search,
+        ?string $status,
+    ): Builder {
+        return User::query()
+            ->where('role', User::ROLE_USER)
+            ->with([
+                'submissions' => fn ($query) => $query
+                    ->where('task_id', $task->getKey()),
+            ])
+            ->when(
+                $search !== '',
+                fn (Builder $query) => $query->where(
+                    fn (Builder $query) => $query
+                        ->where('name', 'like', "%{$search}%")
+                        ->orWhere('email', 'like', "%{$search}%"),
+                ),
+            )
+            ->when(
+                $status === Submission::STATUS_SUBMITTED,
+                fn (Builder $query) => $query->whereHas(
+                    'submissions',
+                    fn (Builder $query) => $query
+                        ->where('task_id', $task->getKey())
+                        ->where('status', Submission::STATUS_SUBMITTED),
+                ),
+            )
+            ->when(
+                $status === Submission::STATUS_LATE,
+                fn (Builder $query) => $query->whereHas(
+                    'submissions',
+                    fn (Builder $query) => $query
+                        ->where('task_id', $task->getKey())
+                        ->where('status', Submission::STATUS_LATE),
+                ),
+            )
+            ->when(
+                $status === self::STATUS_NOT_SUBMITTED,
+                fn (Builder $query) => $query->whereDoesntHave(
+                    'submissions',
+                    fn (Builder $query) => $query
+                        ->where('task_id', $task->getKey()),
+                ),
+            )
+            ->orderBy('name');
     }
 }

@@ -90,7 +90,8 @@
                                     <p class="mt-1 text-xs text-secondary">{{ $task->category ?: 'Tanpa kategori' }}</p>
                                 </td>
                                 <td class="whitespace-nowrap px-5 py-4 text-secondary">
-                                    {{ $task->deadline->format('d/m/Y H:i') }}
+                                    <p>{{ $task->deadline->format('d/m/Y H:i') }}</p>
+                                    <div class="mt-2"><x-deadline-indicator :deadline="$task->deadline" /></div>
                                 </td>
                                 <td class="px-5 py-4">
                                     <x-status-badge :status="$task->status" />
@@ -143,7 +144,10 @@
                     <dl class="mt-4 border-y border-border py-3">
                         <div class="flex items-center justify-between gap-4">
                             <dt class="text-sm text-secondary">Deadline</dt>
-                            <dd class="text-right text-sm font-semibold text-navy">{{ $task->deadline->format('d/m/Y H:i') }}</dd>
+                            <dd class="text-right text-sm font-semibold text-navy">
+                                <p>{{ $task->deadline->format('d/m/Y H:i') }}</p>
+                                <div class="mt-2"><x-deadline-indicator :deadline="$task->deadline" /></div>
+                            </dd>
                         </div>
                     </dl>
 

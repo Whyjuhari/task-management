@@ -234,6 +234,105 @@ class SubmissionMonitoringTest extends TestCase
             ->assertDontSee('Total peserta');
     }
 
+    public function test_admin_can_export_monitoring_csv_with_special_characters(): void
+    {
+        $this->travelTo(Carbon::parse('2026-08-03 08:00:00'));
+
+        [$admin, $task] = $this->adminAndTask([
+            'title' => 'Analisis, "Data" & Presentasi',
+        ]);
+        $submittedParticipant = User::factory()->create([
+            'name' => 'Budi, "Santoso"',
+            'email' => 'budi@example.test',
+            'role' => User::ROLE_USER,
+        ]);
+        User::factory()->create([
+            'name' => 'Ayu Belum',
+            'email' => 'ayu@example.test',
+            'role' => User::ROLE_USER,
+        ]);
+        Submission::factory()->for($task)->for($submittedParticipant)->create([
+            'original_file_name' => 'laporan, final.pdf',
+            'submission_link' => 'https://example.com/hasil?bagian=1&status=final',
+            'note' => "Baris pertama, dengan koma.\nBaris kedua \"dengan kutip\".",
+            'submitted_at' => Carbon::parse('2026-08-03 07:30:00'),
+            'status' => Submission::STATUS_SUBMITTED,
+        ]);
+
+        $response = $this->actingAs($admin)->get(route('admin.submissions.export', [
+            'task_id' => $task->id,
+        ]));
+
+        $response
+            ->assertOk()
+            ->assertDownload('monitoring-analisis-data-presentasi-2026-08-03.csv');
+
+        $rows = $this->csvRows($response->streamedContent());
+
+        $this->assertSame([
+            'Nama Peserta',
+            'Email',
+            'Judul Tugas',
+            'Status',
+            'Waktu Pengumpulan',
+            'Nama File',
+            'Tautan',
+            'Catatan',
+        ], $rows[0]);
+        $this->assertCount(3, $rows);
+        $rowsByParticipant = collect(array_slice($rows, 1))->keyBy(fn (array $row): string => $row[0]);
+
+        $this->assertSame([
+            'Budi, "Santoso"',
+            'budi@example.test',
+            'Analisis, "Data" & Presentasi',
+            'Sudah Mengumpulkan',
+            '03 Agustus 2026, 07:30',
+            'laporan, final.pdf',
+            'https://example.com/hasil?bagian=1&status=final',
+            "Baris pertama, dengan koma.\nBaris kedua \"dengan kutip\".",
+        ], $rowsByParticipant->get('Budi, "Santoso"'));
+        $this->assertSame([
+            'Ayu Belum',
+            'ayu@example.test',
+            'Analisis, "Data" & Presentasi',
+            'Belum Mengumpulkan',
+            '',
+            '',
+            '',
+            '',
+        ], $rowsByParticipant->get('Ayu Belum'));
+    }
+
+    public function test_csv_export_uses_monitoring_filters_and_is_restricted_to_admin(): void
+    {
+        [$admin, $task] = $this->adminAndTask();
+        $submittedParticipant = User::factory()->create([
+            'name' => 'Peserta Sudah',
+            'role' => User::ROLE_USER,
+        ]);
+        $notSubmittedParticipant = User::factory()->create([
+            'name' => 'Peserta Belum',
+            'role' => User::ROLE_USER,
+        ]);
+        Submission::factory()->for($task)->for($submittedParticipant)->create();
+
+        $response = $this->actingAs($admin)->get(route('admin.submissions.export', [
+            'task_id' => $task->id,
+            'search' => 'Peserta',
+            'status' => 'not_submitted',
+        ]));
+
+        $rows = $this->csvRows($response->streamedContent());
+
+        $this->assertCount(2, $rows);
+        $this->assertSame($notSubmittedParticipant->name, $rows[1][0]);
+
+        $this->actingAs($submittedParticipant)
+            ->get(route('admin.submissions.export', ['task_id' => $task->id]))
+            ->assertForbidden();
+    }
+
     /**
      * @param  array<string, mixed>  $taskAttributes
      * @return array{User, Task}
@@ -248,5 +347,25 @@ class SubmissionMonitoringTest extends TestCase
         ], $taskAttributes));
 
         return [$admin, $task];
+    }
+
+    /**
+     * @return array<int, array<int, string|null>>
+     */
+    private function csvRows(string $content): array
+    {
+        $stream = fopen('php://temp', 'r+');
+        fwrite($stream, preg_replace('/^\xEF\xBB\xBF/', '', $content));
+        rewind($stream);
+
+        $rows = [];
+
+        while (($row = fgetcsv($stream, null, ',', '"', '')) !== false) {
+            $rows[] = $row;
+        }
+
+        fclose($stream);
+
+        return $rows;
     }
 }

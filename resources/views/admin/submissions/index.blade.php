@@ -49,8 +49,21 @@
                             Deadline:
                             {{ $selectedTask->deadline->copy()->locale('id')->translatedFormat('d F Y, H:i') }}
                         </p>
+                        <div class="mt-3">
+                            <x-deadline-indicator :deadline="$selectedTask->deadline" />
+                        </div>
                     </div>
-                    <x-status-badge :status="$selectedTask->status" />
+                    <div class="flex flex-wrap items-center gap-3">
+                        <x-status-badge :status="$selectedTask->status" />
+                        <a href="{{ route('admin.submissions.export', array_filter([
+                            'task_id' => $selectedTask->id,
+                            'search' => $search,
+                            'status' => $status,
+                        ], fn ($value) => $value !== null && $value !== '')) }}"
+                            class="inline-flex min-h-11 items-center justify-center rounded-xl bg-success px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-green-700 focus:outline-none focus:ring-3 focus:ring-success/25">
+                            Export CSV
+                        </a>
+                    </div>
                 </div>
             </section>
 

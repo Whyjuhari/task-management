@@ -55,6 +55,7 @@
                     <div>
                         <dt class="text-sm text-secondary">Deadline</dt>
                         <dd class="mt-1 text-sm font-semibold text-navy">{{ $task->deadline->format('d/m/Y H:i') }}</dd>
+                        <dd class="mt-2"><x-deadline-indicator :deadline="$task->deadline" /></dd>
                     </div>
                     <div class="sm:col-span-2">
                         <dt class="text-sm text-secondary">Dibuat oleh</dt>

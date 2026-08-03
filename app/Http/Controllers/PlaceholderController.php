@@ -14,14 +14,6 @@ class PlaceholderController extends Controller
         );
     }
 
-    public function adminParticipants(): View
-    {
-        return $this->show(
-            'Data Peserta',
-            'Halaman untuk melihat data peserta pelatihan akan tersedia pada tahap berikutnya.',
-        );
-    }
-
     public function submissions(): View
     {
         return $this->show(

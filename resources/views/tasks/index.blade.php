@@ -82,6 +82,7 @@
                             <dd class="mt-1 text-sm font-semibold text-navy">
                                 {{ $task->deadline->copy()->locale('id')->translatedFormat('d F Y, H:i') }}
                             </dd>
+                            <dd class="mt-2"><x-deadline-indicator :deadline="$task->deadline" /></dd>
                         </div>
                         <div>
                             <dt class="text-xs font-medium text-secondary">Sisa waktu</dt>
