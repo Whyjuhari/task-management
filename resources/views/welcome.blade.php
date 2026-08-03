@@ -13,8 +13,8 @@
 
 <body>
     <main class="flex min-h-screen items-center justify-center px-6 py-12">
-        <section class="w-full max-w-xl rounded border border-border bg-card p-8 shadow-sm sm:p-10">
-            <div class="mb-6 flex size-14 items-center justify-center rounded bg-primary text-white shadow-sm">
+        <section class="w-full max-w-xl rounded-xl border border-border bg-card p-6 shadow-sm sm:p-10">
+            <div class="mb-6 flex size-14 items-center justify-center rounded-lg bg-primary text-white shadow-sm">
                 <svg class="size-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                     aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" d="m5 12 4 4L19 6" />
@@ -26,7 +26,7 @@
                 {{ config('app.name') }}
             </h1>
             <p class="mt-4 leading-7 text-secondary">
-                Mini Dashboard Manajemen Tugas (Task Management), Menggunakan Laravel Blade
+                Dasbor mini manajemen tugas pelatihan menggunakan Laravel Blade.
             </p>
         </section>
     </main>

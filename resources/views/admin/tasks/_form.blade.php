@@ -39,9 +39,9 @@
                     'min-h-11 w-full rounded-xl border bg-card px-4 py-3 text-sm text-navy outline-none transition focus:ring-3 focus:ring-primary/15',
                     'border-danger focus:border-danger' => $errors->has('title'),
                     'border-border focus:border-primary' => !$errors->has('title'),
-                ])>
+                ]) @error('title') aria-invalid="true" @enderror>
             @error('title')
-                <p class="mt-2 text-sm text-danger">{{ $message }}</p>
+                <p role="alert" class="mt-2 text-sm text-danger">{{ $message }}</p>
             @enderror
         </div>
 
@@ -54,9 +54,9 @@
                     'min-h-11 w-full rounded-xl border bg-card px-4 py-3 text-sm text-navy outline-none transition placeholder:text-slate-400 focus:ring-3 focus:ring-primary/15',
                     'border-danger focus:border-danger' => $errors->has('category'),
                     'border-border focus:border-primary' => !$errors->has('category'),
-                ])>
+                ]) @error('category') aria-invalid="true" @enderror>
             @error('category')
-                <p class="mt-2 text-sm text-danger">{{ $message }}</p>
+                <p role="alert" class="mt-2 text-sm text-danger">{{ $message }}</p>
             @enderror
         </div>
 
@@ -68,9 +68,9 @@
                 'w-full rounded-xl border bg-card px-4 py-3 text-sm text-navy outline-none transition focus:ring-3 focus:ring-primary/15',
                 'border-danger focus:border-danger' => $errors->has('description'),
                 'border-border focus:border-primary' => !$errors->has('description'),
-            ])>{{ old('description', $task->description ?? '') }}</textarea>
+            ]) @error('description') aria-invalid="true" @enderror>{{ old('description', $task->description ?? '') }}</textarea>
             @error('description')
-                <p class="mt-2 text-sm text-danger">{{ $message }}</p>
+                <p role="alert" class="mt-2 text-sm text-danger">{{ $message }}</p>
             @enderror
         </div>
 
@@ -82,9 +82,9 @@
                 'w-full rounded-xl border bg-card px-4 py-3 text-sm text-navy outline-none transition focus:ring-3 focus:ring-primary/15',
                 'border-danger focus:border-danger' => $errors->has('instructions'),
                 'border-border focus:border-primary' => !$errors->has('instructions'),
-            ])>{{ old('instructions', $task->instructions ?? '') }}</textarea>
+            ]) @error('instructions') aria-invalid="true" @enderror>{{ old('instructions', $task->instructions ?? '') }}</textarea>
             @error('instructions')
-                <p class="mt-2 text-sm text-danger">{{ $message }}</p>
+                <p role="alert" class="mt-2 text-sm text-danger">{{ $message }}</p>
             @enderror
         </div>
 
@@ -97,9 +97,9 @@
                     'min-h-11 w-full rounded-xl border bg-card px-4 py-3 text-sm text-navy outline-none transition focus:ring-3 focus:ring-primary/15',
                     'border-danger focus:border-danger' => $errors->has('start_date'),
                     'border-border focus:border-primary' => !$errors->has('start_date'),
-                ])>
+                ]) @error('start_date') aria-invalid="true" @enderror>
             @error('start_date')
-                <p class="mt-2 text-sm text-danger">{{ $message }}</p>
+                <p role="alert" class="mt-2 text-sm text-danger">{{ $message }}</p>
             @enderror
         </div>
 
@@ -112,9 +112,9 @@
                     'min-h-11 w-full rounded-xl border bg-card px-4 py-3 text-sm text-navy outline-none transition focus:ring-3 focus:ring-primary/15',
                     'border-danger focus:border-danger' => $errors->has('deadline'),
                     'border-border focus:border-primary' => !$errors->has('deadline'),
-                ])>
+                ]) @error('deadline') aria-invalid="true" @enderror>
             @error('deadline')
-                <p class="mt-2 text-sm text-danger">{{ $message }}</p>
+                <p role="alert" class="mt-2 text-sm text-danger">{{ $message }}</p>
             @enderror
         </div>
 
@@ -126,14 +126,14 @@
                 'min-h-11 w-full rounded-xl border bg-card px-4 py-3 text-sm text-navy outline-none transition focus:ring-3 focus:ring-primary/15',
                 'border-danger focus:border-danger' => $errors->has('submission_type'),
                 'border-border focus:border-primary' => !$errors->has('submission_type'),
-            ])>
+            ]) @error('submission_type') aria-invalid="true" @enderror>
                 <option value="">Pilih jenis pengumpulan</option>
                 <option value="file" @selected(old('submission_type', $task->submission_type ?? '') === 'file')>File</option>
                 <option value="link" @selected(old('submission_type', $task->submission_type ?? '') === 'link')>Tautan</option>
                 <option value="file_or_link" @selected(old('submission_type', $task->submission_type ?? '') === 'file_or_link')>File atau tautan</option>
             </select>
             @error('submission_type')
-                <p class="mt-2 text-sm text-danger">{{ $message }}</p>
+                <p role="alert" class="mt-2 text-sm text-danger">{{ $message }}</p>
             @enderror
         </div>
 
@@ -145,13 +145,13 @@
                 'min-h-11 w-full rounded-xl border bg-card px-4 py-3 text-sm text-navy outline-none transition focus:ring-3 focus:ring-primary/15',
                 'border-danger focus:border-danger' => $errors->has('status'),
                 'border-border focus:border-primary' => !$errors->has('status'),
-            ])>
+            ]) @error('status') aria-invalid="true" @enderror>
                 <option value="draft" @selected(old('status', $task->status ?? 'draft') === 'draft')>Draf</option>
                 <option value="active" @selected(old('status', $task->status ?? 'draft') === 'active')>Aktif</option>
                 <option value="closed" @selected(old('status', $task->status ?? 'draft') === 'closed')>Ditutup</option>
             </select>
             @error('status')
-                <p class="mt-2 text-sm text-danger">{{ $message }}</p>
+                <p role="alert" class="mt-2 text-sm text-danger">{{ $message }}</p>
             @enderror
         </div>
     </div>

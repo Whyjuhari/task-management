@@ -13,6 +13,7 @@
     --color-secondary: #64748b;
     --color-border: #e2e8f0;
     --color-success: #16a34a;
+    --color-success-strong: #15803d;
     --color-warning: #f59e0b;
     --color-danger: #dc2626;
 }
@@ -26,5 +27,11 @@
         min-height: 100vh;
         background-color: var(--color-background);
         color: var(--color-navy);
+        overflow-wrap: break-word;
+    }
+
+    :where(a, button, input, select, textarea):focus-visible {
+        outline: 3px solid #2563eb;
+        outline-offset: 2px;
     }
 }

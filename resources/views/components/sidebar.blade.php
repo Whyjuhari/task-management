@@ -39,7 +39,7 @@
         <a href="{{ route($isAdmin ? 'admin.dashboard' : 'dashboard') }}"
             class="flex min-w-0 items-center gap-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-white/60">
             <span
-                class="flex size-10 shrink-0 items-center justify-center rounded bg-primary text-white shadow-lg shadow-primary/25">
+                class="flex size-10 shrink-0 items-center justify-center rounded-lg bg-primary text-white shadow-lg shadow-primary/25">
                 <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                     aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4" />
@@ -54,7 +54,7 @@
         </a>
 
         <button type="button" data-drawer-close
-            class="cursor-pointer flex size-11 items-center justify-center rounded text-slate-300 transition hover:bg-white/10 hover:text-white focus:outline-none focus:ring-2 focus:ring-white/60 lg:hidden"
+            class="cursor-pointer flex size-11 items-center justify-center rounded-lg text-slate-300 transition hover:bg-white/10 hover:text-white focus:outline-none focus:ring-2 focus:ring-white/60 lg:hidden"
             aria-label="Tutup navigasi">
             <svg class="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                 aria-hidden="true">
@@ -74,7 +74,7 @@
             @php($isActive = request()->routeIs($item['active']))
 
             <a href="{{ route($item['route']) }}" data-drawer-link @class([
-                'group flex min-h-11 items-center gap-3 rounded px-3 py-2.5 text-sm font-medium transition focus:outline-none focus:ring-2 focus:ring-white/60',
+                'group flex min-h-11 items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition focus:outline-none focus:ring-2 focus:ring-white/60',
                 'bg-primary text-white shadow-lg shadow-primary/20' => $isActive,
                 'text-slate-300 hover:bg-white/10 hover:text-white' => !$isActive,
             ])
@@ -127,7 +127,7 @@
         <form method="POST" action="{{ route('logout') }}">
             @csrf
             <button type="submit"
-                class="cursor-pointer flex min-h-11 w-full items-center gap-3 rounded px-3 py-2.5 text-sm font-medium text-slate-300 transition hover:bg-danger/20 hover:text-white focus:outline-none focus:ring-2 focus:ring-white/60">
+                class="cursor-pointer flex min-h-11 w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-300 transition hover:bg-danger/20 hover:text-white focus:outline-none focus:ring-2 focus:ring-white/60">
                 <svg class="size-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                     aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round"

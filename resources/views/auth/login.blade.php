@@ -12,10 +12,10 @@
 </head>
 
 <body>
-    <main class="flex min-h-screen items-center justify-center px-6 py-12">
-        <section class="w-full max-w-md rounded-2xl border border-border bg-card p-8 shadow-sm sm:p-10">
+    <main class="flex min-h-screen items-center justify-center px-4 py-8 sm:px-6 sm:py-12">
+        <section class="w-full max-w-md rounded-xl border border-border bg-card p-5 shadow-sm sm:p-8">
             <div class="mb-8">
-                <div class="mb-5 flex size-12 items-center justify-center rounded bg-primary text-white">
+                <div class="mb-5 flex size-12 items-center justify-center rounded-lg bg-primary text-white">
                     <svg class="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                         aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4" />
@@ -37,30 +37,31 @@
                 <div>
                     <label for="email" class="mb-2 block text-sm font-medium text-navy">Email</label>
                     <input id="email" name="email" type="email" value="{{ old('email') }}" autocomplete="email"
-                        autofocus required
+                        autofocus required @error('email') aria-invalid="true" aria-describedby="email-error" @enderror
                         class="w-full rounded-xl border border-border bg-card px-4 py-3 text-sm text-navy outline-none transition focus:border-primary focus:ring-3 focus:ring-primary/15">
                     @error('email')
-                        <p class="mt-2 text-sm text-danger">{{ $message }}</p>
+                        <p id="email-error" role="alert" class="mt-2 text-sm text-danger">{{ $message }}</p>
                     @enderror
                 </div>
 
                 <div>
                     <label for="password" class="mb-2 block text-sm font-medium text-navy">Kata sandi</label>
                     <input id="password" name="password" type="password" autocomplete="current-password" required
+                        @error('password') aria-invalid="true" aria-describedby="password-error" @enderror
                         class="w-full rounded-xl border border-border bg-card px-4 py-3 text-sm text-navy outline-none transition focus:border-primary focus:ring-3 focus:ring-primary/15">
                     @error('password')
-                        <p class="mt-2 text-sm text-danger">{{ $message }}</p>
+                        <p id="password-error" role="alert" class="mt-2 text-sm text-danger">{{ $message }}</p>
                     @enderror
                 </div>
 
-                <label class="flex cursor-pointer items-center gap-3 text-sm text-secondary">
+                <label class="flex min-h-11 cursor-pointer items-center gap-3 text-sm text-secondary">
                     <input name="remember" type="checkbox" value="1"
-                        class="size-4 rounded border-border text-primary focus:ring-primary">
+                        class="size-5 rounded border-border text-primary focus:ring-primary">
                     <span>Ingat saya</span>
                 </label>
 
                 <button type="submit"
-                    class="w-full rounded-sm bg-primary px-4 py-3 text-sm font-semibold text-white transition hover:bg-blue-700 focus:outline-none focus:ring-3 focus:ring-primary/30">
+                    class="min-h-11 w-full rounded-lg bg-primary px-4 py-3 text-sm font-semibold text-white transition hover:bg-navy focus:outline-none focus:ring-3 focus:ring-primary/30">
                     Masuk
                 </button>
             </form>

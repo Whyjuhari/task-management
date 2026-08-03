@@ -13,12 +13,12 @@
 
 <body class="overflow-x-hidden antialiased">
     <div class="min-h-screen bg-background">
-        <div data-drawer-overlay class="fixed inset-0 z-40 hidden bg-navy/60 backdrop-blur-sm lg:hidden"
+        <div data-drawer-overlay class="fixed inset-0 z-40 hidden bg-navy/60 lg:hidden"
             aria-hidden="true"></div>
 
         <x-sidebar :user="auth()->user()" />
 
-        <div class="min-w-0 lg:pl-72">
+        <div data-app-content class="min-w-0 lg:pl-72">
             <x-header :title="$pageTitle ?? 'Dasbor'" :user="auth()->user()" />
 
             <main id="main-content" class="min-w-0 px-4 py-6 sm:px-6 lg:px-8 lg:py-8">

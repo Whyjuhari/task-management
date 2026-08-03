@@ -21,7 +21,7 @@
     @endif
 
     <form method="GET" action="{{ route('admin.tasks.index') }}"
-        class="mb-6 grid gap-4 rounded-2xl border border-border bg-card p-4 shadow-sm md:grid-cols-[minmax(0,1fr)_220px_auto] md:items-end sm:p-5">
+        class="mb-6 grid gap-4 rounded-xl border border-border bg-card p-4 shadow-sm md:grid-cols-[minmax(0,1fr)_220px_auto] md:items-end sm:p-5">
         <div>
             <label for="search" class="mb-2 block text-sm font-semibold text-navy">Cari berdasarkan judul</label>
             <input id="search" name="search" type="search" value="{{ $search }}"
@@ -67,9 +67,10 @@
             @endif
         </x-empty-state>
     @else
-        <div class="hidden overflow-hidden rounded-2xl border border-border bg-card shadow-sm md:block">
-            <div class="overflow-x-auto">
+        <div class="hidden overflow-hidden rounded-xl border border-border bg-card shadow-sm xl:block">
+            <div class="overflow-x-auto" tabindex="0" aria-label="Tabel tugas dapat digeser secara horizontal">
                 <table class="w-full min-w-[920px] text-left text-sm">
+                    <caption class="sr-only">Daftar tugas pelatihan</caption>
                     <thead class="border-b border-border bg-slate-50 text-xs uppercase tracking-wider text-secondary">
                         <tr>
                             <th scope="col" class="px-5 py-4 font-semibold">Tugas</th>
@@ -127,9 +128,9 @@
             </div>
         </div>
 
-        <div class="space-y-4 md:hidden">
+        <div class="space-y-4 xl:hidden">
             @foreach ($tasks as $task)
-                <article class="rounded-2xl border border-border bg-card p-5 shadow-sm">
+                <article class="rounded-xl border border-border bg-card p-5 shadow-sm">
                     <div class="flex items-start justify-between gap-3">
                         <div class="min-w-0">
                             <a href="{{ route('admin.tasks.show', $task) }}"
@@ -179,7 +180,7 @@
         </div>
 
         <div class="mt-6">
-            {{ $tasks->links() }}
+            {{ $tasks->links('components.pagination') }}
         </div>
     @endif
 @endsection

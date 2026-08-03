@@ -15,7 +15,7 @@
     @endif
 
     <form method="GET" action="{{ route('tasks.index') }}"
-        class="mb-6 grid gap-4 rounded-2xl border border-border bg-card p-4 shadow-sm md:grid-cols-[minmax(0,1fr)_240px_auto] md:items-end sm:p-5">
+        class="mb-6 grid gap-4 rounded-xl border border-border bg-card p-4 shadow-sm md:grid-cols-[minmax(0,1fr)_240px_auto] md:items-end sm:p-5">
         <div>
             <label for="search" class="mb-2 block text-sm font-semibold text-navy">Cari berdasarkan judul</label>
             <input id="search" name="search" type="search" value="{{ $search }}"
@@ -58,7 +58,7 @@
             @foreach ($tasks as $task)
                 @php($personalStatus = $task->personalStatusFor($participant))
 
-                <article class="flex min-w-0 flex-col rounded-2xl border border-border bg-card p-5 shadow-sm">
+                <article class="flex min-w-0 flex-col rounded-xl border border-border bg-card p-5 shadow-sm">
                     <div class="flex flex-wrap items-center gap-2">
                         <x-status-badge :status="$task->status" />
                         <x-status-badge :status="$personalStatus" />
@@ -105,7 +105,7 @@
         </div>
 
         <div class="mt-6">
-            {{ $tasks->links() }}
+            {{ $tasks->links('components.pagination') }}
         </div>
     @endif
 @endsection

@@ -11,7 +11,7 @@
     </x-page-header>
 
     <div class="grid gap-6 xl:grid-cols-[minmax(0,1fr)_340px]">
-        <section class="rounded-2xl border border-border bg-card p-5 shadow-sm sm:p-8">
+        <section class="rounded-xl border border-border bg-card p-5 shadow-sm sm:p-8">
             <div class="flex flex-col gap-4 border-b border-border pb-5 sm:flex-row sm:items-start sm:justify-between">
                 <div>
                     <p class="text-sm text-secondary">Peserta</p>
@@ -59,7 +59,7 @@
             </dl>
         </section>
 
-        <aside class="h-fit rounded-2xl border border-border bg-card p-5 shadow-sm sm:p-6">
+        <aside class="h-fit rounded-xl border border-border bg-card p-5 shadow-sm sm:p-6">
             <p class="text-xs font-semibold uppercase tracking-wider text-secondary">Informasi waktu</p>
             <dl class="mt-4 space-y-4">
                 <div>

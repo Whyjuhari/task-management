@@ -17,7 +17,7 @@
 @endif
 
 <form method="POST" action="{{ $action }}" enctype="multipart/form-data"
-    class="rounded-2xl border border-border bg-card p-5 shadow-sm sm:p-8">
+    class="mx-auto max-w-4xl rounded-xl border border-border bg-card p-5 shadow-sm sm:p-8">
     @csrf
     @if ($method !== 'POST')
         @method($method)
@@ -40,7 +40,8 @@
                 @endif
 
                 <input id="file" name="file" type="file" accept=".pdf,.doc,.docx,.zip,.png,.jpg,.jpeg"
-                    class="mt-2 min-h-11 w-full rounded-xl border border-border bg-card px-3 py-2.5 text-sm text-navy file:mr-4 file:rounded-lg file:border-0 file:bg-primary/10 file:px-3 file:py-2 file:font-semibold file:text-primary hover:file:bg-primary/15 focus:outline-none focus:ring-3 focus:ring-primary/15">
+                    @error('file') aria-invalid="true" @enderror
+                    class="mt-2 min-h-11 max-w-full rounded-xl border border-border bg-card px-3 py-2.5 text-sm text-navy file:mr-4 file:rounded-lg file:border-0 file:bg-primary/10 file:px-3 file:py-2 file:font-semibold file:text-primary hover:file:bg-primary/15 focus:outline-none focus:ring-3 focus:ring-primary/15">
                 <p class="mt-2 text-xs leading-5 text-secondary">
                     Format: PDF, DOC, DOCX, ZIP, PNG, JPG, atau JPEG. Maksimal 5 MB.
                     @if ($submission->file_path)
@@ -48,7 +49,7 @@
                     @endif
                 </p>
                 @error('file')
-                    <p class="mt-2 text-sm text-danger">{{ $message }}</p>
+                    <p role="alert" class="mt-2 text-sm text-danger">{{ $message }}</p>
                 @enderror
             </div>
         @endif
@@ -64,9 +65,10 @@
                 <input id="submission_link" name="submission_link" type="url"
                     value="{{ old('submission_link', $submission->submission_link) }}"
                     placeholder="https://contoh.com/hasil-tugas"
+                    @error('submission_link') aria-invalid="true" @enderror
                     class="mt-2 min-h-11 w-full rounded-xl border border-border bg-card px-4 py-3 text-sm text-navy placeholder:text-secondary/70 focus:border-primary focus:outline-none focus:ring-3 focus:ring-primary/15">
                 @error('submission_link')
-                    <p class="mt-2 text-sm text-danger">{{ $message }}</p>
+                    <p role="alert" class="mt-2 text-sm text-danger">{{ $message }}</p>
                 @enderror
             </div>
         @endif
@@ -78,11 +80,14 @@
         @endif
 
         <div>
-            <label for="note" class="block text-sm font-semibold text-navy">Catatan</label>
+            <label for="note" class="block text-sm font-semibold text-navy">
+                Catatan <span class="font-normal text-secondary">(opsional)</span>
+            </label>
             <textarea id="note" name="note" rows="5" placeholder="Tambahkan informasi yang perlu diketahui instruktur"
+                @error('note') aria-invalid="true" @enderror
                 class="mt-2 w-full rounded-xl border border-border bg-card px-4 py-3 text-sm text-navy placeholder:text-secondary/70 focus:border-primary focus:outline-none focus:ring-3 focus:ring-primary/15">{{ old('note', $submission->note) }}</textarea>
             @error('note')
-                <p class="mt-2 text-sm text-danger">{{ $message }}</p>
+                <p role="alert" class="mt-2 text-sm text-danger">{{ $message }}</p>
             @enderror
         </div>
     </div>

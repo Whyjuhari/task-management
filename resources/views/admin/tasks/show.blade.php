@@ -26,7 +26,7 @@
 
     <div class="grid gap-6 xl:grid-cols-[minmax(0,1fr)_320px]">
         <div class="space-y-6">
-            <section class="rounded-2xl border border-border bg-card p-5 shadow-sm sm:p-8">
+            <section class="rounded-xl border border-border bg-card p-5 shadow-sm sm:p-8">
                 <div class="flex flex-wrap items-center justify-between gap-3 border-b border-border pb-5">
                     <div>
                         <p class="text-xs font-semibold uppercase tracking-wider text-secondary">Status tugas</p>
@@ -64,7 +64,7 @@
                 </dl>
             </section>
 
-            <section class="rounded-2xl border border-border bg-card p-5 shadow-sm sm:p-8">
+            <section class="rounded-xl border border-border bg-card p-5 shadow-sm sm:p-8">
                 <h2 class="text-lg font-semibold text-navy">Deskripsi</h2>
                 <p class="mt-3 whitespace-pre-line text-sm leading-7 text-secondary">{{ $task->description }}</p>
 
@@ -77,7 +77,7 @@
             </section>
         </div>
 
-        <aside class="h-fit rounded-2xl border border-danger/20 bg-card p-5 shadow-sm">
+        <aside class="h-fit rounded-xl border border-danger/20 bg-card p-5 shadow-sm">
             <h2 class="font-semibold text-navy">Hapus tugas</h2>
             <p class="mt-2 text-sm leading-6 text-secondary">
                 Tugas dan seluruh pengumpulan terkait akan dihapus permanen.

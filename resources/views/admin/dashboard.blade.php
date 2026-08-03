@@ -5,7 +5,7 @@
 @section('content')
     <x-page-header :title="$pageTitle" :description="$description" />
 
-    <section class="mb-6 overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
+    <section class="mb-6 overflow-hidden rounded-xl border border-border bg-card shadow-sm">
         <div class="bg-linear-to-r from-primary/10 via-primary/5 to-transparent px-5 py-6 sm:px-8 sm:py-8">
             <p class="text-sm font-semibold text-primary">Selamat datang kembali</p>
             <h2 class="mt-2 text-2xl font-semibold tracking-tight text-navy">{{ auth()->user()->name }}</h2>
@@ -24,7 +24,7 @@
             ['label' => 'Pengumpulan Terlambat', 'value' => $statistics['late_submissions'], 'color' => 'text-amber-700'],
             ['label' => 'Mendekati Deadline', 'value' => $statistics['near_deadline_tasks'], 'color' => 'text-danger'],
         ] as $statistic)
-            <article class="rounded-2xl border border-border bg-card p-5 shadow-sm">
+            <article class="rounded-xl border border-border bg-card p-5 shadow-sm">
                 <p class="text-sm font-medium text-secondary">{{ $statistic['label'] }}</p>
                 <p class="mt-2 text-3xl font-bold {{ $statistic['color'] }}">{{ $statistic['value'] }}</p>
             </article>
@@ -32,7 +32,7 @@
     </section>
 
     <div class="grid gap-6 xl:grid-cols-2">
-        <section class="rounded-2xl border border-border bg-card p-5 shadow-sm sm:p-6">
+        <section class="rounded-xl border border-border bg-card p-5 shadow-sm sm:p-6">
             <div class="flex items-center justify-between gap-4 border-b border-border pb-4">
                 <div>
                     <h2 class="text-lg font-semibold text-navy">Tugas Terbaru</h2>
@@ -68,7 +68,7 @@
             @endif
         </section>
 
-        <section class="rounded-2xl border border-border bg-card p-5 shadow-sm sm:p-6">
+        <section class="rounded-xl border border-border bg-card p-5 shadow-sm sm:p-6">
             <div class="border-b border-border pb-4">
                 <h2 class="text-lg font-semibold text-navy">Deadline Terdekat</h2>
                 <p class="mt-1 text-sm text-secondary">Tugas aktif dengan deadline yang akan datang.</p>
@@ -102,7 +102,7 @@
             @endif
         </section>
 
-        <section class="rounded-2xl border border-border bg-card p-5 shadow-sm sm:p-6">
+        <section class="rounded-xl border border-border bg-card p-5 shadow-sm sm:p-6">
             <div class="flex items-center justify-between gap-4 border-b border-border pb-4">
                 <div>
                     <h2 class="text-lg font-semibold text-navy">Aktivitas Pengumpulan Terbaru</h2>
@@ -143,16 +143,16 @@
             @endif
         </section>
 
-        <section class="rounded-2xl border border-border bg-card p-5 shadow-sm sm:p-6">
+        <section class="rounded-xl border border-border bg-card p-5 shadow-sm sm:p-6">
             <div class="border-b border-border pb-4">
-                <h2 class="text-lg font-semibold text-navy">Progress Pengumpulan</h2>
+                <h2 class="text-lg font-semibold text-navy">Progres Pengumpulan</h2>
                 <p class="mt-1 text-sm text-secondary">Perbandingan peserta yang mengumpulkan pada tugas aktif.</p>
             </div>
 
             @if ($taskProgress->isEmpty())
                 <div class="pt-5">
-                    <x-empty-state title="Belum ada progress"
-                        description="Progress akan tersedia setelah terdapat tugas aktif." />
+                    <x-empty-state title="Belum ada progres"
+                        description="Progres akan tersedia setelah terdapat tugas aktif." />
                 </div>
             @else
                 <div class="space-y-5 pt-5">
@@ -168,7 +168,7 @@
                                 </span>
                             </div>
                             <div class="mt-3 h-2.5 overflow-hidden rounded-full bg-slate-100" role="progressbar"
-                                aria-label="Progress {{ $progress['task']->title }}"
+                                aria-label="Progres {{ $progress['task']->title }}"
                                 aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{ $progress['percentage'] }}">
                                 <div class="h-full rounded-full bg-primary transition-all"
                                     style="width: {{ min(100, $progress['percentage']) }}%"></div>

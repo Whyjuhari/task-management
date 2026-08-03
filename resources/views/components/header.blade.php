@@ -6,7 +6,7 @@
     $initial = mb_strtoupper(mb_substr($user?->name ?? 'P', 0, 1));
 @endphp
 
-<header class="sticky top-0 z-30 border-b border-border bg-card/95 backdrop-blur">
+<header class="sticky top-0 z-30 border-b border-border bg-card">
     <div class="grid min-h-20 grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 px-4 sm:px-6 lg:px-8">
         <button type="button" data-drawer-open
             class="cursor-pointer flex size-11 items-center justify-center rounded-xl border border-border text-navy transition hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-primary/30 lg:hidden"
@@ -23,13 +23,13 @@
             <h1 class="truncate text-base font-semibold text-navy sm:text-lg">{{ $title }}</h1>
         </div>
 
-        <div class="flex justify-end min-w-0 items-center gap-2 sm:gap-3">
-            <div class="hidden size-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-sm font-semibold text-primary shadow-sm sm:flex"
+        <div class="flex min-w-0 items-center justify-end gap-2 sm:gap-3">
+            <div class="flex size-9 shrink-0 items-center justify-center rounded-full bg-primary/10 text-sm font-semibold text-primary shadow-sm sm:size-10"
                 aria-hidden="true">
                 {{ $initial }}
             </div>
-            <div class="min-w-0 max-w-28 text-right">
-                {{-- <p class="truncate text-sm font-semibold text-navy">{{ $user?->name }}</p> --}}
+            <div class="hidden min-w-0 max-w-40 text-right sm:block">
+                <p class="truncate text-sm font-semibold text-navy">{{ $user?->name }}</p>
                 <p class="truncate text-xs text-secondary">{{ $roleLabel }}</p>
             </div>
         </div>

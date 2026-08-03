@@ -20,7 +20,7 @@
         $dotStyles = 'bg-warning';
     } else {
         $label = 'Lebih dari 3 hari';
-        $styles = 'bg-success/10 text-success ring-success/20';
+        $styles = 'bg-success/10 text-success-strong ring-success/20';
         $dotStyles = 'bg-success';
     }
 
@@ -28,7 +28,7 @@
 @endphp
 
 <span title="Deadline {{ $formattedDeadline }}" aria-label="Indikator deadline: {{ $label }}"
-    class="inline-flex items-center gap-2 rounded-full px-2.5 py-1 text-xs font-semibold ring-1 ring-inset {{ $styles }}">
+    class="inline-flex max-w-full items-center gap-2 whitespace-nowrap rounded-full px-2.5 py-1 text-xs font-semibold ring-1 ring-inset {{ $styles }}">
     <span class="size-2 rounded-full {{ $dotStyles }}" aria-hidden="true"></span>
     {{ $label }}
 </span>

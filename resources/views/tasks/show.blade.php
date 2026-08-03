@@ -23,7 +23,7 @@
 
     <div class="grid gap-6 xl:grid-cols-[minmax(0,1fr)_340px]">
         <div class="space-y-6">
-            <section class="rounded-2xl border border-border bg-card p-5 shadow-sm sm:p-8">
+            <section class="rounded-xl border border-border bg-card p-5 shadow-sm sm:p-8">
                 <div class="flex flex-wrap gap-2 border-b border-border pb-5">
                     <x-status-badge :status="$task->status" />
                     <x-status-badge :status="$personalStatus" />
@@ -66,7 +66,7 @@
                 </dl>
             </section>
 
-            <section class="rounded-2xl border border-border bg-card p-5 shadow-sm sm:p-8">
+            <section class="rounded-xl border border-border bg-card p-5 shadow-sm sm:p-8">
                 <h2 class="text-lg font-semibold text-navy">Deskripsi</h2>
                 <p class="mt-3 whitespace-pre-line text-sm leading-7 text-secondary">{{ $task->description }}</p>
 
@@ -79,7 +79,7 @@
             </section>
         </div>
 
-        <aside class="h-fit rounded-2xl border border-border bg-card p-5 shadow-sm sm:p-6">
+        <aside class="h-fit rounded-xl border border-border bg-card p-5 shadow-sm sm:p-6">
             <p class="text-xs font-semibold uppercase tracking-wider text-secondary">Status pengumpulan Anda</p>
             <div class="mt-3">
                 <x-status-badge :status="$personalStatus" />

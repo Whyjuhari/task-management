@@ -17,7 +17,7 @@
             description="Buat tugas terlebih dahulu sebelum membuka monitoring pengumpulan." />
     @else
         <form method="GET" action="{{ route('admin.submissions.index') }}"
-            class="mb-6 grid gap-4 rounded-2xl border border-border bg-card p-4 shadow-sm sm:p-5 md:grid-cols-[minmax(0,1fr)_auto] md:items-end">
+            class="mb-6 grid gap-4 rounded-xl border border-border bg-card p-4 shadow-sm sm:p-5 md:grid-cols-[minmax(0,1fr)_auto] md:items-end">
             <div>
                 <label for="task_id" class="mb-2 block text-sm font-semibold text-navy">Pilih tugas</label>
                 <select id="task_id" name="task_id" required
@@ -40,7 +40,7 @@
             <x-empty-state title="Pilih tugas untuk dipantau"
                 description="Ringkasan dan data peserta akan tampil setelah satu tugas dipilih." />
         @else
-            <section class="mb-6 rounded-2xl border border-border bg-card p-5 shadow-sm sm:p-6">
+            <section class="mb-6 rounded-xl border border-border bg-card p-5 shadow-sm sm:p-6">
                 <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                     <div>
                         <p class="text-xs font-semibold uppercase tracking-wider text-secondary">Tugas terpilih</p>
@@ -60,31 +60,31 @@
                             'search' => $search,
                             'status' => $status,
                         ], fn ($value) => $value !== null && $value !== '')) }}"
-                            class="inline-flex min-h-11 items-center justify-center rounded-xl bg-success px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-green-700 focus:outline-none focus:ring-3 focus:ring-success/25">
-                            Export CSV
+                            class="inline-flex min-h-11 items-center justify-center rounded-xl bg-success-strong px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-green-800 focus:outline-none focus:ring-3 focus:ring-success/25">
+                            Ekspor CSV
                         </a>
                     </div>
                 </div>
             </section>
 
             <section aria-label="Ringkasan pengumpulan" class="mb-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
-                <article class="rounded-2xl border border-border bg-card p-5 shadow-sm">
+                <article class="rounded-xl border border-border bg-card p-5 shadow-sm">
                     <p class="text-sm font-medium text-secondary">Total peserta</p>
                     <p class="mt-2 text-3xl font-bold text-navy">{{ $summary['total'] }}</p>
                 </article>
-                <article class="rounded-2xl border border-success/20 bg-card p-5 shadow-sm">
+                <article class="rounded-xl border border-success/20 bg-card p-5 shadow-sm">
                     <p class="text-sm font-medium text-secondary">Sudah mengumpulkan</p>
                     <p class="mt-2 text-3xl font-bold text-success">{{ $summary['submitted'] }}</p>
                 </article>
-                <article class="rounded-2xl border border-border bg-card p-5 shadow-sm">
+                <article class="rounded-xl border border-border bg-card p-5 shadow-sm">
                     <p class="text-sm font-medium text-secondary">Belum mengumpulkan</p>
                     <p class="mt-2 text-3xl font-bold text-secondary">{{ $summary['not_submitted'] }}</p>
                 </article>
-                <article class="rounded-2xl border border-warning/25 bg-card p-5 shadow-sm">
+                <article class="rounded-xl border border-warning/25 bg-card p-5 shadow-sm">
                     <p class="text-sm font-medium text-secondary">Terlambat</p>
                     <p class="mt-2 text-3xl font-bold text-amber-700">{{ $summary['late'] }}</p>
                 </article>
-                <article class="rounded-2xl border border-primary/20 bg-card p-5 shadow-sm">
+                <article class="rounded-xl border border-primary/20 bg-card p-5 shadow-sm">
                     <p class="text-sm font-medium text-secondary">Persentase pengumpulan</p>
                     <p class="mt-2 text-3xl font-bold text-primary">
                         {{ number_format($summary['percentage'], 1, ',', '.') }}%
@@ -93,7 +93,7 @@
             </section>
 
             <form method="GET" action="{{ route('admin.submissions.index') }}"
-                class="mb-6 grid gap-4 rounded-2xl border border-border bg-card p-4 shadow-sm sm:p-5 md:grid-cols-[minmax(0,1fr)_220px_auto] md:items-end">
+                class="mb-6 grid gap-4 rounded-xl border border-border bg-card p-4 shadow-sm sm:p-5 md:grid-cols-[minmax(0,1fr)_220px_auto] md:items-end">
                 <input type="hidden" name="task_id" value="{{ $selectedTask->id }}">
 
                 <div>
@@ -132,11 +132,16 @@
                 <x-empty-state :title="$search !== '' || $status !== null ? 'Peserta tidak ditemukan' : 'Belum ada peserta'"
                     :description="$search !== '' || $status !== null
                         ? 'Coba ubah kata pencarian atau filter status yang digunakan.'
-                        : 'Belum ada pengguna dengan role peserta yang dapat ditampilkan.'" />
+                        : 'Belum ada pengguna dengan peran peserta yang dapat ditampilkan.'" />
             @else
-                <div class="hidden overflow-hidden rounded-2xl border border-border bg-card shadow-sm md:block">
-                    <div class="overflow-x-auto">
-                        <table class="w-full min-w-[1420px] text-left text-sm">
+                <p class="mb-2 hidden text-xs text-secondary xl:block 2xl:hidden">
+                    Geser tabel secara horizontal untuk melihat seluruh informasi pengumpulan.
+                </p>
+                <div class="hidden overflow-hidden rounded-xl border border-border bg-card shadow-sm xl:block">
+                    <div class="overflow-x-auto" tabindex="0"
+                        aria-label="Tabel monitoring pengumpulan dapat digeser secara horizontal">
+                        <table class="w-full min-w-[1180px] text-left text-sm">
+                            <caption class="sr-only">Monitoring pengumpulan seluruh peserta</caption>
                             <thead class="border-b border-border bg-slate-50 text-xs uppercase tracking-wider text-secondary">
                                 <tr>
                                     <th scope="col" class="px-4 py-4 font-semibold">Nama</th>
@@ -209,10 +214,10 @@
                     </div>
                 </div>
 
-                <div class="space-y-4 md:hidden">
+                <div class="space-y-4 xl:hidden">
                     @foreach ($participants as $participant)
                         @php($submission = $participant->submissions->first())
-                        <article class="rounded-2xl border border-border bg-card p-5 shadow-sm">
+                        <article class="rounded-xl border border-border bg-card p-5 shadow-sm">
                             <div class="flex items-start justify-between gap-3">
                                 <div class="min-w-0">
                                     <h3 class="font-semibold text-navy">{{ $participant->name }}</h3>
@@ -279,7 +284,7 @@
                 </div>
 
                 <div class="mt-6">
-                    {{ $participants->links() }}
+                    {{ $participants->links('components.pagination') }}
                 </div>
             @endif
         @endif

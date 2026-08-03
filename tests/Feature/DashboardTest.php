@@ -64,7 +64,7 @@ class DashboardTest extends TestCase
             ->assertOk()
             ->assertSee('Tugas Deadline Terdekat')
             ->assertSee('Aktivitas Pengumpulan Terbaru')
-            ->assertSee('Progress Pengumpulan')
+            ->assertSee('Progres Pengumpulan')
             ->assertSee('3 Agustus 2026, 07:00')
             ->assertViewHas('statistics', [
                 'total_tasks' => 4,
@@ -164,7 +164,7 @@ class DashboardTest extends TestCase
             ->assertOk()
             ->assertSee('Belum ada tugas')
             ->assertSee('Belum ada pengumpulan')
-            ->assertSee('Belum ada progress')
+            ->assertSee('Belum ada progres')
             ->assertViewHas('statistics', [
                 'total_tasks' => 0,
                 'active_tasks' => 0,

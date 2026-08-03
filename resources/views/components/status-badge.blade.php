@@ -2,7 +2,7 @@
 
 @php
     $styles = match ($status) {
-        'active', 'submitted' => 'bg-success/10 text-success ring-success/20',
+        'active', 'submitted' => 'bg-success/10 text-success-strong ring-success/20',
         'draft', 'not_submitted' => 'bg-slate-100 text-secondary ring-border',
         'late' => 'bg-warning/10 text-amber-700 ring-warning/20',
         'closed', 'deadline_ended' => 'bg-danger/10 text-danger ring-danger/20',
@@ -21,6 +21,6 @@
     };
 @endphp
 
-<span class="inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold ring-1 ring-inset {{ $styles }}">
+<span class="inline-flex max-w-full items-center whitespace-nowrap rounded-full px-2.5 py-1 text-xs font-semibold ring-1 ring-inset {{ $styles }}">
     {{ $label ?? $defaultLabel }}
 </span>

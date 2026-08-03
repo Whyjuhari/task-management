@@ -8,11 +8,12 @@
 
     @if ($participants->isEmpty())
         <x-empty-state title="Belum ada peserta"
-            description="Data akan tampil setelah pengguna dengan role peserta tersedia." />
+            description="Data akan tampil setelah pengguna dengan peran peserta tersedia." />
     @else
-        <div class="hidden overflow-hidden rounded-2xl border border-border bg-card shadow-sm md:block">
-            <div class="overflow-x-auto">
+        <div class="hidden overflow-hidden rounded-xl border border-border bg-card shadow-sm xl:block">
+            <div class="overflow-x-auto" tabindex="0" aria-label="Tabel data peserta dapat digeser secara horizontal">
                 <table class="w-full min-w-[940px] text-left text-sm">
+                    <caption class="sr-only">Ringkasan pengumpulan seluruh peserta</caption>
                     <thead class="border-b border-border bg-slate-50 text-xs uppercase tracking-wider text-secondary">
                         <tr>
                             <th scope="col" class="px-5 py-4 font-semibold">Nama</th>
@@ -40,10 +41,10 @@
             </div>
         </div>
 
-        <div class="space-y-4 md:hidden">
+        <div class="space-y-4 xl:hidden">
             @foreach ($participants as $participant)
                 @php($notSubmittedCount = max(0, $totalTasks - $participant->submitted_count - $participant->late_count))
-                <article class="rounded-2xl border border-border bg-card p-5 shadow-sm">
+                <article class="rounded-xl border border-border bg-card p-5 shadow-sm">
                     <h2 class="font-semibold text-navy">{{ $participant->name }}</h2>
                     <p class="mt-1 break-all text-sm text-secondary">{{ $participant->email }}</p>
 
@@ -70,7 +71,7 @@
         </div>
 
         <div class="mt-6">
-            {{ $participants->links() }}
+            {{ $participants->links('components.pagination') }}
         </div>
     @endif
 @endsection

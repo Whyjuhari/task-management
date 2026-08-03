@@ -3,8 +3,8 @@
     'description' => 'Data akan ditampilkan di sini setelah tersedia.',
 ])
 
-<div class="rounded-2xl border border-dashed border-border bg-card px-5 py-12 text-center sm:px-8 sm:py-16">
-    <div class="mx-auto flex size-14 items-center justify-center rounded-2xl bg-slate-100 text-secondary">
+<div class="rounded-xl border border-dashed border-border bg-card px-5 py-10 text-center sm:px-8 sm:py-12">
+    <div class="mx-auto flex size-14 items-center justify-center rounded-xl bg-slate-100 text-secondary">
         <svg class="size-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"
             aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round"
