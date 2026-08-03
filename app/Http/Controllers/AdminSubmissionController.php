@@ -173,7 +173,7 @@ class AdminSubmissionController extends Controller
                         default => 'Belum Mengumpulkan',
                     };
 
-                    fputcsv($stream, [
+                    fputcsv($stream, array_map($this->escapeCsvFormula(...), [
                         $participant->name,
                         $participant->email,
                         $task->title,
@@ -182,7 +182,7 @@ class AdminSubmissionController extends Controller
                         $submission?->original_file_name ?? '',
                         $submission?->submission_link ?? '',
                         $submission?->note ?? '',
-                    ], ',', '"', '', "\r\n");
+                    ]), ',', '"', '', "\r\n");
                 }
 
                 fclose($stream);
@@ -198,7 +198,7 @@ class AdminSubmissionController extends Controller
         $filePath = $submission->file_path;
 
         abort_unless(
-            is_string($filePath) && Str::startsWith($filePath, 'submissions/'),
+            Submission::hasValidPrivateFilePath($filePath),
             404,
             'File pengumpulan tidak tersedia.',
         );
@@ -223,6 +223,15 @@ class AdminSubmissionController extends Controller
             $submission->user()->where('role', User::ROLE_USER)->exists(),
             404,
         );
+    }
+
+    private function escapeCsvFormula(mixed $value): string
+    {
+        $value = (string) ($value ?? '');
+
+        return preg_match('/\A[=+\-@\t\r]/u', $value) === 1
+            ? "'{$value}"
+            : $value;
     }
 
     private function monitoringParticipantsQuery(

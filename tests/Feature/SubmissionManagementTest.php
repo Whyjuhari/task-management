@@ -28,6 +28,11 @@ class SubmissionManagementTest extends TestCase
         $response = $this->actingAs($participant)->post(route('submissions.store', $task), [
             'file' => UploadedFile::fake()->create('hasil-tugas.pdf', 500, 'application/pdf'),
             'note' => 'Tugas sudah diperiksa kembali.',
+            'task_id' => Task::factory()->for($task->creator, 'creator')->create()->id,
+            'user_id' => User::factory()->create()->id,
+            'file_path' => '../rahasia.txt',
+            'submitted_at' => now()->subYear(),
+            'status' => Submission::STATUS_LATE,
         ]);
 
         $submission = Submission::query()->sole();

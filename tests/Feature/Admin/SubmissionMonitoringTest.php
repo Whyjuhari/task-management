@@ -221,6 +221,14 @@ class SubmissionMonitoringTest extends TestCase
         $this->actingAs($admin)
             ->get(route('admin.submissions.download', $unapprovedPathSubmission))
             ->assertNotFound();
+
+        $prefixedTraversalSubmission = Submission::factory()->for($task)
+            ->for(User::factory()->create(['role' => User::ROLE_USER]))
+            ->create(['file_path' => 'submissions/../rahasia.txt']);
+
+        $this->actingAs($admin)
+            ->get(route('admin.submissions.download', $prefixedTraversalSubmission))
+            ->assertNotFound();
     }
 
     public function test_monitoring_has_an_empty_state_before_a_task_is_selected(): void
@@ -331,6 +339,32 @@ class SubmissionMonitoringTest extends TestCase
         $this->actingAs($submittedParticipant)
             ->get(route('admin.submissions.export', ['task_id' => $task->id]))
             ->assertForbidden();
+    }
+
+    public function test_csv_export_neutralizes_spreadsheet_formulas(): void
+    {
+        [$admin, $task] = $this->adminAndTask([
+            'title' => '=SUM(1,1)',
+        ]);
+        $participant = User::factory()->create([
+            'name' => '@peserta',
+            'email' => 'peserta@example.test',
+            'role' => User::ROLE_USER,
+        ]);
+        Submission::factory()->for($task)->for($participant)->create([
+            'original_file_name' => '+laporan.pdf',
+            'note' => '-2+3',
+        ]);
+
+        $response = $this->actingAs($admin)->get(route('admin.submissions.export', [
+            'task_id' => $task->id,
+        ]));
+        $rows = $this->csvRows($response->streamedContent());
+
+        $this->assertSame("'@peserta", $rows[1][0]);
+        $this->assertSame("'=SUM(1,1)", $rows[1][2]);
+        $this->assertSame("'+laporan.pdf", $rows[1][5]);
+        $this->assertSame("'-2+3", $rows[1][7]);
     }
 
     /**

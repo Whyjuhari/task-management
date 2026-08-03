@@ -9,14 +9,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 #[Fillable([
-    'task_id',
-    'user_id',
-    'file_path',
-    'original_file_name',
     'submission_link',
     'note',
-    'submitted_at',
-    'status',
 ])]
 class Submission extends Model
 {
@@ -28,6 +22,12 @@ class Submission extends Model
     public const STATUS_LATE = 'late';
 
     public const STATUSES = [self::STATUS_SUBMITTED, self::STATUS_LATE];
+
+    public static function hasValidPrivateFilePath(mixed $path): bool
+    {
+        return is_string($path)
+            && preg_match('/\Asubmissions\/[A-Za-z0-9._-]+\z/D', $path) === 1;
+    }
 
     public function task(): BelongsTo
     {

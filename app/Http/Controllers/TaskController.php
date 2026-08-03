@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
+use App\Models\Submission;
 use App\Models\Task;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 
@@ -96,7 +99,18 @@ class TaskController extends Controller
 
     public function destroy(Task $task): RedirectResponse
     {
-        $task->delete();
+        $storedFilePaths = $task->submissions()
+            ->whereNotNull('file_path')
+            ->pluck('file_path')
+            ->filter(fn (mixed $path): bool => Submission::hasValidPrivateFilePath($path))
+            ->values()
+            ->all();
+
+        DB::transaction(fn () => $task->delete());
+
+        if ($storedFilePaths !== []) {
+            Storage::disk('local')->delete($storedFilePaths);
+        }
 
         return redirect()
             ->route('admin.tasks.index')

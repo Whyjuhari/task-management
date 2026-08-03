@@ -2,9 +2,11 @@
 
 namespace Tests\Feature\Admin;
 
+use App\Models\Submission;
 use App\Models\Task;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class TaskManagementTest extends TestCase
@@ -156,6 +158,28 @@ class TaskManagementTest extends TestCase
         $this->actingAs($participant)
             ->get(route('admin.tasks.index'))
             ->assertForbidden();
+    }
+
+    public function test_deleting_a_task_removes_its_private_submission_files(): void
+    {
+        Storage::fake('local');
+
+        $admin = User::factory()->create(['role' => User::ROLE_ADMIN]);
+        $participant = User::factory()->create(['role' => User::ROLE_USER]);
+        $task = Task::factory()->for($admin, 'creator')->create();
+        Storage::disk('local')->put('submissions/hasil-peserta.pdf', 'isi-file');
+
+        Submission::factory()->for($task)->for($participant)->create([
+            'file_path' => 'submissions/hasil-peserta.pdf',
+        ]);
+
+        $this->actingAs($admin)
+            ->delete(route('admin.tasks.destroy', $task))
+            ->assertRedirect(route('admin.tasks.index'));
+
+        $this->assertDatabaseMissing('tasks', ['id' => $task->id]);
+        $this->assertDatabaseMissing('submissions', ['task_id' => $task->id]);
+        Storage::disk('local')->assertMissing('submissions/hasil-peserta.pdf');
     }
 
     private function validPayload(array $overrides = []): array

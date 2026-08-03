@@ -20,7 +20,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
     'deadline',
     'submission_type',
     'status',
-    'created_by',
 ])]
 class Task extends Model
 {

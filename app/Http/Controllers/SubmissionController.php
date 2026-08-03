@@ -129,21 +129,23 @@ class SubmissionController extends Controller
                 $newFilePath,
                 $originalFileName,
             ): void {
-                $submission ??= new Submission([
-                    'task_id' => $task->getKey(),
-                    'user_id' => $request->user()->getKey(),
-                ]);
+                if ($submission === null) {
+                    $submission = new Submission;
+                    $submission->task()->associate($task);
+                    $submission->user()->associate($request->user());
+                }
 
                 $submission->fill([
                     'submission_link' => $task->submission_type === Task::SUBMISSION_TYPE_FILE
                         ? null
                         : ($validated['submission_link'] ?? null),
                     'note' => $validated['note'] ?? null,
-                    'submitted_at' => $submittedAt,
-                    'status' => $submittedAt->lessThanOrEqualTo($task->deadline)
-                        ? Submission::STATUS_SUBMITTED
-                        : Submission::STATUS_LATE,
                 ]);
+
+                $submission->submitted_at = $submittedAt;
+                $submission->status = $submittedAt->lessThanOrEqualTo($task->deadline)
+                    ? Submission::STATUS_SUBMITTED
+                    : Submission::STATUS_LATE;
 
                 if ($task->submission_type === Task::SUBMISSION_TYPE_LINK) {
                     $submission->file_path = null;

@@ -19,51 +19,53 @@ class TaskFlowSeeder extends Seeder
             [
                 'name' => 'Admin Instruktur',
                 'password' => $password,
-                'role' => User::ROLE_ADMIN,
             ],
         );
+        $admin->role = User::ROLE_ADMIN;
+        $admin->save();
 
         $juhari = User::query()->updateOrCreate(
             ['email' => 'peserta@taskflow.test'],
             [
                 'name' => 'Juhari',
                 'password' => $password,
-                'role' => User::ROLE_USER,
             ],
         );
+        $juhari->role = User::ROLE_USER;
+        $juhari->save();
 
         $ayu = User::query()->updateOrCreate(
             ['email' => 'ayu@taskflow.test'],
             [
                 'name' => 'Ayu Lestari',
                 'password' => $password,
-                'role' => User::ROLE_USER,
             ],
         );
+        $ayu->role = User::ROLE_USER;
+        $ayu->save();
 
         $budi = User::query()->updateOrCreate(
             ['email' => 'budi@taskflow.test'],
             [
                 'name' => 'Budi Santoso',
                 'password' => $password,
-                'role' => User::ROLE_USER,
             ],
         );
+        $budi->role = User::ROLE_USER;
+        $budi->save();
 
         $citra = User::query()->updateOrCreate(
             ['email' => 'citra@taskflow.test'],
             [
                 'name' => 'Citra Wulandari',
                 'password' => $password,
-                'role' => User::ROLE_USER,
             ],
         );
+        $citra->role = User::ROLE_USER;
+        $citra->save();
 
-        $longDeadlineTask = Task::query()->updateOrCreate(
-            [
-                'title' => 'Membuat Landing Page Responsif',
-                'created_by' => $admin->id,
-            ],
+        $longDeadlineTask = $admin->createdTasks()->updateOrCreate(
+            ['title' => 'Membuat Landing Page Responsif'],
             [
                 'description' => 'Membuat landing page pelatihan yang responsif pada perangkat desktop dan mobile.',
                 'instructions' => 'Kumpulkan source code dalam bentuk file ZIP atau tautan repository.',
@@ -75,11 +77,8 @@ class TaskFlowSeeder extends Seeder
             ],
         );
 
-        $nearDeadlineTask = Task::query()->updateOrCreate(
-            [
-                'title' => 'Membuat Halaman Formulir',
-                'created_by' => $admin->id,
-            ],
+        $nearDeadlineTask = $admin->createdTasks()->updateOrCreate(
+            ['title' => 'Membuat Halaman Formulir'],
             [
                 'description' => 'Membuat formulir HTML dengan validasi dasar dan tampilan yang mudah digunakan.',
                 'instructions' => 'Kumpulkan tautan repository sebelum batas waktu berakhir.',
@@ -91,11 +90,8 @@ class TaskFlowSeeder extends Seeder
             ],
         );
 
-        $expiredTask = Task::query()->updateOrCreate(
-            [
-                'title' => 'Membuat Struktur HTML Semantik',
-                'created_by' => $admin->id,
-            ],
+        $expiredTask = $admin->createdTasks()->updateOrCreate(
+            ['title' => 'Membuat Struktur HTML Semantik'],
             [
                 'description' => 'Menyusun halaman menggunakan elemen HTML semantik yang sesuai.',
                 'instructions' => 'Kumpulkan file HTML dalam bentuk ZIP.',
@@ -107,8 +103,9 @@ class TaskFlowSeeder extends Seeder
             ],
         );
 
-        Submission::query()->updateOrCreate(
+        Submission::query()->firstOrNew(
             ['task_id' => $longDeadlineTask->id, 'user_id' => $juhari->id],
+        )->forceFill(
             [
                 'file_path' => 'submissions/landing-page-juhari.zip',
                 'original_file_name' => 'landing-page-juhari.zip',
@@ -117,10 +114,11 @@ class TaskFlowSeeder extends Seeder
                 'submitted_at' => now()->subHours(2),
                 'status' => Submission::STATUS_SUBMITTED,
             ],
-        );
+        )->save();
 
-        Submission::query()->updateOrCreate(
+        Submission::query()->firstOrNew(
             ['task_id' => $nearDeadlineTask->id, 'user_id' => $ayu->id],
+        )->forceFill(
             [
                 'file_path' => null,
                 'original_file_name' => null,
@@ -129,10 +127,11 @@ class TaskFlowSeeder extends Seeder
                 'submitted_at' => now()->subHour(),
                 'status' => Submission::STATUS_SUBMITTED,
             ],
-        );
+        )->save();
 
-        Submission::query()->updateOrCreate(
+        Submission::query()->firstOrNew(
             ['task_id' => $expiredTask->id, 'user_id' => $budi->id],
+        )->forceFill(
             [
                 'file_path' => 'submissions/html-semantik-budi.zip',
                 'original_file_name' => 'html-semantik-budi.zip',
@@ -141,10 +140,11 @@ class TaskFlowSeeder extends Seeder
                 'submitted_at' => now()->subDay(),
                 'status' => Submission::STATUS_LATE,
             ],
-        );
+        )->save();
 
-        Submission::query()->updateOrCreate(
+        Submission::query()->firstOrNew(
             ['task_id' => $expiredTask->id, 'user_id' => $citra->id],
+        )->forceFill(
             [
                 'file_path' => 'submissions/html-semantik-citra.zip',
                 'original_file_name' => 'html-semantik-citra.zip',
@@ -153,6 +153,6 @@ class TaskFlowSeeder extends Seeder
                 'submitted_at' => now()->subDays(3),
                 'status' => Submission::STATUS_SUBMITTED,
             ],
-        );
+        )->save();
     }
 }
