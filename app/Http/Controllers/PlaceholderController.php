@@ -14,14 +14,6 @@ class PlaceholderController extends Controller
         );
     }
 
-    public function adminSubmissions(): View
-    {
-        return $this->show(
-            'Monitoring Pengumpulan',
-            'Halaman untuk memantau pengumpulan peserta akan tersedia pada tahap berikutnya.',
-        );
-    }
-
     public function adminParticipants(): View
     {
         return $this->show(

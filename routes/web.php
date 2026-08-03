@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminSubmissionController;
 use App\Http\Controllers\AuthenticatedSessionController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ParticipantTaskController;
@@ -24,7 +25,10 @@ Route::middleware('auth')->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'admin'])->name('dashboard');
         Route::patch('/tasks/{task}/status', [TaskController::class, 'updateStatus'])->name('tasks.status');
         Route::resource('tasks', TaskController::class);
-        Route::get('/submissions', [PlaceholderController::class, 'adminSubmissions'])->name('submissions.index');
+        Route::get('/submissions', [AdminSubmissionController::class, 'index'])->name('submissions.index');
+        Route::get('/submissions/{submission}', [AdminSubmissionController::class, 'show'])->name('submissions.show');
+        Route::get('/submissions/{submission}/download', [AdminSubmissionController::class, 'download'])
+            ->name('submissions.download');
         Route::get('/participants', [PlaceholderController::class, 'adminParticipants'])->name('participants.index');
     });
 
